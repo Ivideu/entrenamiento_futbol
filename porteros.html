@@ -5,138 +5,206 @@
   <title>Calentamiento Portero Fútbol Sala</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
+    :root {
+      --primary-color: #0066ff;
+      --accent-color: #00e676;
+      --text-dark: #0f172a;
+      --text-muted: #64748b;
+      --bg-light: #f8fafc;
+      --card-bg: #ffffff;
+    }
+
     body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       margin: 0;
-      background: #0b1726;
-      color: #f5f5f5;
+      background: var(--bg-light);
+      color: var(--text-dark);
     }
 
     header {
-      padding: 1.5rem;
+      padding: 2.5rem 1.5rem;
       text-align: center;
-      background: linear-gradient(135deg, #0b1726, #1f3b5b);
-      border-bottom: 2px solid #1f3b5b;
+      background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #004080 100%);
+      color: #ffffff;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+      position: relative;
     }
 
     header h1 {
       margin: 0;
-      font-size: 1.8rem;
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      text-transform: uppercase;
+      background: linear-gradient(90deg, #ffffff, #a5f3fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
     header p {
-      margin: 0.5rem 0 0;
-      font-size: 0.95rem;
-      opacity: 0.85;
+      margin: 0.6rem 0 0;
+      font-size: 1rem;
+      color: #cbd5e1;
+      font-weight: 500;
     }
 
     main {
-      max-width: 1100px;
+      max-width: 1150px;
       margin: 0 auto;
-      padding: 1.5rem;
+      padding: 2rem 1.5rem;
     }
 
     .intro {
-      margin-bottom: 1.5rem;
-      font-size: 0.95rem;
-      line-height: 1.5;
+      margin-bottom: 2rem;
+      font-size: 1rem;
+      line-height: 1.6;
+      color: var(--text-muted);
+      background: #ffffff;
+      padding: 1.25rem 1.5rem;
+      border-radius: 12px;
+      border-left: 5px solid var(--primary-color);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03);
     }
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 1.2rem;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.5rem;
     }
 
+    /* CASILLAS (CARDS) LLAMATIVAS Y DINÁMICAS */
     .card {
-      background: #111c2b;
-      border-radius: 10px;
-      padding: 1rem;
-      border: 1px solid #24364f;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35);
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 1.25rem;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
       display: flex;
       flex-direction: column;
-      gap: 0.6rem;
+      gap: 0.8rem;
+      transition: all 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Borde superior decorativo animado */
+    .card::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
+      opacity: 0.8;
+      transition: opacity 0.3s ease;
+    }
+
+    /* Efecto Dinámico al pasar el ratón */
+    .card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 12px 25px rgba(0, 102, 255, 0.15);
+      border-color: #cbd5e1;
+    }
+
+    .card:hover::before {
+      opacity: 1;
+      height: 5px;
     }
 
     .card-header {
       display: flex;
       justify-content: space-between;
-      align-items: baseline;
+      align-items: center;
       gap: 0.5rem;
     }
 
     .card-title {
-      font-size: 1rem;
-      font-weight: 600;
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text-dark);
     }
 
     .card-time {
-      font-size: 0.85rem;
-      color: #9fb4d9;
+      font-size: 0.8rem;
+      font-weight: 700;
+      background: #eff6ff;
+      color: var(--primary-color);
+      padding: 0.25rem 0.6rem;
+      border-radius: 8px;
+      white-space: nowrap;
+    }
+
+    .tag {
+      align-self: flex-start;
+      display: inline-block;
+      padding: 0.25rem 0.65rem;
+      border-radius: 999px;
+      background: rgba(0, 230, 118, 0.15);
+      color: #008744;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
 
     .media {
       width: 100%;
-      border-radius: 8px;
+      border-radius: 10px;
       overflow: hidden;
-      border: 1px solid #24364f;
-      background: #0b1726;
+      border: 1px solid #e2e8f0;
+      background: #f1f5f9;
       display: flex;
       align-items: center;
       justify-content: center;
-      min-height: 150px;
-      color: #9fb4d9;
+      min-height: 160px;
+      color: var(--text-muted);
       font-size: 0.85rem;
       text-align: center;
-      padding: 0.5rem;
       box-sizing: border-box;
+      position: relative;
     }
 
     .media img,
     .media video {
       width: 100%;
-      height: auto;
+      height: 100%;
+      object-fit: cover;
       display: block;
-      cursor: pointer; /* Indica que la imagen es clicable */
-      transition: transform 0.2s ease;
+      cursor: pointer;
+      transition: transform 0.3s ease, filter 0.3s ease;
     }
 
     .media img:hover {
-      transform: scale(1.02); /* Efecto visual al pasar el ratón */
+      transform: scale(1.04);
+      filter: brightness(1.05);
     }
 
     .card-description {
       font-size: 0.9rem;
-      line-height: 1.4;
+      line-height: 1.5;
+      color: #475569;
     }
 
     .card-steps {
       font-size: 0.85rem;
-      margin: 0.3rem 0 0;
-      padding-left: 1.1rem;
+      margin: 0;
+      padding-left: 1.2rem;
+      color: #334155;
     }
 
     .card-steps li {
-      margin-bottom: 0.2rem;
+      margin-bottom: 0.3rem;
     }
 
     footer {
       text-align: center;
-      padding: 1rem;
-      font-size: 0.8rem;
-      color: #9fb4d9;
-      border-top: 1px solid #1f3b5b;
-      margin-top: 1rem;
-    }
-
-    .tag {
-      display: inline-block;
-      padding: 0.15rem 0.5rem;
-      border-radius: 999px;
-      background: #24364f;
-      font-size: 0.75rem;
-      margin-top: 0.2rem;
+      padding: 2rem 1rem;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      border-top: 1px solid #e2e8f0;
+      margin-top: 3rem;
+      background: #ffffff;
     }
 
     /* ESTILOS DEL MODAL (Capa Dinámica) */
@@ -148,8 +216,8 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background-color: rgba(0, 0, 0, 0.85);
-      backdrop-filter: blur(4px); /* Efecto desenfoque de fondo */
+      background-color: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(6px);
       justify-content: center;
       align-items: center;
       padding: 1rem;
@@ -159,8 +227,8 @@
     .modal-content {
       max-width: 90%;
       max-height: 90vh;
-      border-radius: 8px;
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+      border-radius: 12px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
       object-fit: contain;
     }
 
@@ -173,6 +241,11 @@
       font-weight: bold;
       cursor: pointer;
       user-select: none;
+      transition: color 0.2s ease;
+    }
+
+    .modal-close:hover {
+      color: var(--accent-color);
     }
   </style>
 </head>
@@ -241,7 +314,7 @@
       <!-- 3. Desplazamientos específicos de portero (3 min) -->
       <article class="card">
         <div class="card-header">
-          <div class="card-title">3. Desplazamientos específicos de portero</div>
+          <div class="card-title">3. Desplazamientos específicos</div>
           <div class="card-time">3 min</div>
         </div>
         <div class="tag">Trabajo de pies</div>
@@ -290,7 +363,7 @@
           <div class="card-title">5. Disparos suaves y reacción</div>
           <div class="card-time">4 min</div>
         </div>
-        <div class="tag">Reflejos y toma de contacto</div>
+        <div class="tag">Reflejos y contacto</div>
 
         <div class="media">
           <img src="Imagenes/Portero5.jpg" alt="Disparos suaves y reacción" />
@@ -310,10 +383,10 @@
       <!-- 6. Estiramientos breves y concentración (≈ 1 min) -->
       <article class="card">
         <div class="card-header">
-          <div class="card-title">6. Estiramientos breves y concentración</div>
+          <div class="card-title">6. Estiramientos y concentración</div>
           <div class="card-time">1–2 min</div>
         </div>
-        <div class="tag">Vuelta a la calma ligera</div>
+        <div class="tag">Vuelta a la calma</div>
 
         <div class="media">
           <img src="Imagenes/Portero6.jpg" alt="Estiramientos breves y concentración" />
@@ -326,7 +399,7 @@
         <ul class="card-steps">
           <li>Estiramientos de cuádriceps, isquios y gemelos.</li>
           <li>Estiramiento de hombros y espalda.</li>
-          <li>3–4 respiraciones profundas visualizando las primeras acciones del partido.</li>
+          <li>3–4 respiraciones profundas visualizando las primeras acciones.</li>
         </ul>
       </article>
     </section>
@@ -336,13 +409,13 @@
     Página de ejemplo para GitHub · Personaliza imágenes, vídeos y tiempos según tu portero y tu equipo.
   </footer>
 
-  <!-- ESTE ES EL CONTENEDOR DEL MODAL -->
+  <!-- CONTENEDOR DEL MODAL -->
   <div id="imageModal" class="modal">
     <span class="modal-close">&times;</span>
     <img class="modal-content" id="imgExpanded" alt="Imagen ampliada" />
   </div>
 
-  <!-- JAVASCRIPT PARA HACER DINÁMICO EL CLIC -->
+  <!-- JAVASCRIPT -->
   <script>
     const modal = document.getElementById('imageModal');
     const modalImg = document.getElementById('imgExpanded');
@@ -362,14 +435,14 @@
       modal.style.display = 'none';
     });
 
-    // Cerrar al pulsar fuera de la imagen (en el fondo oscuro)
+    // Cerrar al pulsar fuera de la imagen
     modal.addEventListener('click', (e) => {
       if (e.target === modal) {
         modal.style.display = 'none';
       }
     });
 
-    // Cerrar al pulsar la tecla Escape (PC)
+    // Cerrar al pulsar Escape
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         modal.style.display = 'none';
