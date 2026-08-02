@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Mi Plan Fitness</title>
+
+  <style>
+    body {
+      margin: 0;
+      padding: 40px 20px;
+      font-family: system-ui, sans-serif;
+      background: #f8fafc;
+      color: #0f172a;
+    }
+
+    h1 {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 30px;
+    }
+
+    .grid {
+      display: grid;
+      gap: 20px;
+      max-width: 600px;
+      margin: auto;
+    }
+
+    .card {
+      padding: 20px;
+      border-radius: 16px;
+      background: white;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      transition: transform .2s, box-shadow .2s;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    }
+
+    .emoji {
+      font-size: 2rem;
+    }
+
+    .title {
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+  </style>
+</head>
+
+<body>
+
+  <h1>Mi Plan Fitness</h1>
+
+  <div class="grid">
+    <a class="card" href="porteros.html">
+      <span class="emoji">💪</span>
+      <span class="title">Rutina de porteros</span>
+    </a>
+
+    <a class="card" href="jugadores">
+      <span class="emoji">🍽️</span>
+      <span class="title">Rutina de jugadores</span>
+    </a>
+  </div>
+
+</body>
+</html>
