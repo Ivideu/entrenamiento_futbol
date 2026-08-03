@@ -247,9 +247,32 @@
     .modal-close:hover {
       color: var(--accent-color);
     }
+    .top-bar{
+    padding:20px;
+}
+
+.back-button{
+    display:inline-block;
+    background:#0066ff;
+    color:#fff;
+    text-decoration:none;
+    padding:12px 20px;
+    border-radius:10px;
+    font-weight:700;
+    transition:.3s;
+    box-shadow:0 4px 12px rgba(0,102,255,.25);
+}
+
+.back-button:hover{
+    transform:translateY(-2px);
+    box-shadow:0 8px 18px rgba(0,102,255,.35);
+}
   </style>
 </head>
 <body>
+  <div class="top-bar">
+    <a href="index.html" class="back-button">← Volver</a>
+</div>
   <header>
     <h1>Calentamiento de Portero de Fútbol Sala</h1>
     <p>Rutina previa al partido · Duración aproximada: 15 minutos</p>
