@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sesión Fútbol Sala Infantil - Circulación de Balón</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+--bg:#f5f7fa;
+--card:#ffffff;
+--text:#1f2937;
+--warm:#f59e0b;
+--tech:#2563eb;
+--tactic:#16a34a;
+--game:#dc2626;
+--cool:#7c3aed;
+--shadow:0 8px 20px rgba(0,0,0,.08);
+}
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Inter',sans-serif;
+}
+
+body{
+background:var(--bg);
+color:var(--text);
+line-height:1.6;
+}
+
+header{
+background:linear-gradient(135deg,#0f172a,#1e293b);
+color:white;
+padding:30px;
+text-align:center;
+}
+
+header h1{
+font-size:2rem;
+margin-bottom:10px;
+}
+
+.info-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:12px;
+margin-top:20px;
+}
+
+.info-box{
+background:rgba(255,255,255,.08);
+padding:12px;
+border-radius:10px;
+}
+
+nav{
+position:sticky;
+top:0;
+background:white;
+padding:10px;
+box-shadow:var(--shadow);
+z-index:999;
+display:flex;
+flex-wrap:wrap;
+gap:10px;
+justify-content:center;
+}
+
+nav a{
+text-decoration:none;
+padding:8px 12px;
+border-radius:20px;
+background:#e5e7eb;
+color:#111827;
+font-size:.9rem;
+}
+
+.print-btn{
+background:#111827;
+color:white;
+border:none;
+padding:10px 18px;
+border-radius:8px;
+cursor:pointer;
+}
+
+.container{
+max-width:1200px;
+margin:auto;
+padding:20px;
+}
+
+.card{
+background:var(--card);
+border-radius:16px;
+margin-bottom:20px;
+overflow:hidden;
+box-shadow:var(--shadow);
+}
+
+.card-header{
+padding:18px;
+cursor:pointer;
+color:white;
+display:flex;
+justify-content:space-between;
+align-items:center;
+font-weight:700;
+}
+
+.card-content{
+max-height:0;
+overflow:hidden;
+transition:max-height .5s ease;
+padding:0 18px;
+}
+
+.card.active .card-content{
+max-height:3000px;
+padding:20px;
+}
+
+.warmup{background:var(--warm);}
+.technique{background:var(--tech);}
+.tactic{background:var(--tactic);}
+.game{background:var(--game);}
+.cooldown{background:var(--cool);}
+
+.diagram{
+border:2px dashed #cbd5e1;
+border-radius:12px;
+height:240px;
+display:flex;
+align-items:center;
+justify-content:center;
+background:#f8fafc;
+margin:15px 0;
+font-size:1.1rem;
+font-weight:600;
+color:#64748b;
+text-align:center;
+padding:20px;
+}
+
+ul{
+padding-left:20px;
+}
+
+.section-title{
+margin-bottom:12px;
+font-size:1.2rem;
+font-weight:700;
+}
+
+.notes{
+min-height:250px;
+border:2px dashed #cbd5e1;
+border-radius:10px;
+padding:15px;
+background:white;
+}
+
+@media(max-width:768px){
+header h1{
+font-size:1.5rem;
+}
+.card-header{
+font-size:.95rem;
+}
+}
+
+@media print{
+nav,.print-btn{
+display:none;
+}
+body{
+background:white;
+}
+.card{
+break-inside:avoid;
+box-shadow:none;
+border:1px solid #ddd;
+}
+.card-content{
+max-height:none !important;
+padding:20px !important;
+}
+}
+</style>
+
+</head>
+
+<body>
+
+<header>
+<h1>SESIÓN DE ENTRENAMIENTO FUTSAL INFANTIL</h1>
+
+<div class="info-grid">
+<div class="info-box"><strong>Categoría:</strong><br>Infantil 2º Año (13-14 años)</div>
+<div class="info-box"><strong>Objetivo:</strong><br>Circulación rápida de balón</div>
+<div class="info-box"><strong>Jugadores:</strong><br>8-10</div>
+<div class="info-box"><strong>Nivel:</strong><br>Intermedio</div>
+<div class="info-box"><strong>Duración:</strong><br>85 minutos</div>
+<div class="info-box"><strong>Material:</strong><br>Balones, conos, petos y porterías</div>
+</div>
+</header>
+
+<nav>
+<a href="#e1">Calentamiento</a>
+<a href="#e2">Rondo</a>
+<a href="#e3">Superioridad</a>
+<a href="#e4">Ataque Posicional</a>
+<a href="#e5">Partido</a>
+<a href="#e6">Vuelta Calma</a>
+<button class="print-btn" onclick="window.print()">Imprimir sesión</button>
+</nav>
+
+<div class="container">
+
+<!-- EJERCICIO 1 -->
+
+<div class="card active" id="e1">
+<div class="card-header warmup">
+<span>1. Calentamiento Técnico Dinámico (12 min)</span>
+<span>▼</span>
+</div>
+
+<div class="card-content">
+
+<p><strong>Objetivo:</strong> Activación general y mejora de controles orientados y pases.</p>
+
+<p><strong>Jugadores:</strong> 8-10</p>
+
+<div class="diagram"
+alt="Jugadores distribuidos en cuadrado realizando pases y movimientos continuos tras pase con cambio de posición">
+📋 Diagrama del ejercicio
+</div>
+
+<h3 class="section-title">Descripción</h3>
+
+<ol>
+<li>Cuadrado de 12x12 metros.</li>
+<li>Cada jugador ocupa una posición exterior.</li>
+<li>Pase y movimiento obligatorio.</li>
+<li>Control orientado antes del pase.</li>
+<li>Cambio constante de posición.</li>
+</ol>
+
+<h3>Variantes</h3>
+<ul>
+<li>Máximo dos toques.</li>
+<li>Un toque.</li>
+<li>Introducir defensor pasivo.</li>
+</ul>
+
+<h3>Correcciones</h3>
+<ul>
+<li>Perfil corporal abierto.</li>
+<li>Orientación previa a recibir.</li>
+<li>Comunicación verbal.</li>
+<li>Calidad del primer control.</li>
+</ul>
+
+</div>
+</div>
+
+<!-- EJERCICIO 2 -->
+
+<div class="card" id="e2">
+<div class="card-header technique">
+<span>2. Rondo 4x2 + Apoyos (12 min)</span>
+<span>▼</span>
+</div>
+
+<div class="card-content">
+
+<p><strong>Objetivo:</strong> Mejorar velocidad de circulación y líneas de pase.</p>
+
+<p><strong>Jugadores:</strong> 8-10</p>
+
+<div class="diagram"
+alt="Rondo de fútbol sala 4 contra 2 con dos apoyos exteriores generando superioridad numérica">
+📋 Diagrama del ejercicio
+</div>
+
+<h3>Descripción</h3>
+
+<ol>
+<li>Zona de 12x12 metros.</li>
+<li>4 poseedores contra 2 defensores.</li>
+<li>2 comodines exteriores.</li>
+<li>Objetivo: 10 pases consecutivos.</li>
+<li>Si recuperan los defensores cambian rol.</li>
+</ol>
+
+<h3>Variantes</h3>
+
+<ul>
+<li>Dos toques máximo.</li>
+<li>Objetivo de 15 pases.</li>
+<li>Reducir espacio.</li>
+</ul>
+
+<h3>Correcciones</h3>
+
+<ul>
+<li>Crear triángulos permanentes.</li>
+<li>No quedarse estático.</li>
+<li>Jugar lejos de la presión.</li>
+<li>Velocidad de ejecución.</li>
+</ul>
+
+</div>
+</div>
+
+<!-- EJERCICIO 3 -->
+
+<div class="card" id="e3">
+<div class="card-header tactic">
+<span>3. Conservación 3x2 + Finalización (15 min)</span>
+<span>▼</span>
+</div>
+
+<div class="card-content">
+
+<p><strong>Objetivo:</strong> Relacionar circulación de balón con progresión ofensiva.</p>
+
+<div class="diagram"
+alt="Tres atacantes contra dos defensores realizando circulación antes de finalizar en portería">
+📋 Diagrama del ejercicio
+</div>
+
+<h3>Descripción</h3>
+
+<ol>
+<li>Zona media pista.</li>
+<li>3 atacantes contra 2 defensores.</li>
+<li>Antes de finalizar deben realizar mínimo 5 pases.</li>
+<li>Tras tiro entra siguiente grupo.</li>
+</ol>
+
+<h3>Variantes</h3>
+
+<ul>
+<li>4 pases obligatorios.</li>
+<li>4x3.</li>
+<li>Limitar tiempo de ataque.</li>
+</ul>
+
+<h3>Correcciones</h3>
+
+<ul>
+<li>Atraer rival antes de pasar.</li>
+<li>Paciencia ofensiva.</li>
+<li>Buscar tercer hombre.</li>
+<li>Mantener amplitud.</li>
+</ul>
+
+</div>
+</div>
+
+<!-- EJERCICIO 4 -->
+
+<div class="card" id="e4">
+<div class="card-header tactic">
+<span>4. Ataque Posicional 4-0 Simplificado (18 min)</span>
+<span>▼</span>
+</div>
+
+<div class="card-content">
+
+<p><strong>Objetivo:</strong> Comprender movilidad y circulación en sistema 4-0.</p>
+
+<div class="diagram"
+alt="Sistema 4-0 de fútbol sala mostrando rotaciones, apoyos y circulación continua del balón">
+📋 Diagrama del ejercicio
+</div>
+
+<h3>Descripción</h3>
+
+<ol>
+<li>4 jugadores en estructura 4-0.</li>
+<li>Balón circula continuamente.</li>
+<li>Tras pase se realiza desmarque.</li>
+<li>Buscar cambios de orientación.</li>
+<li>Finalizar cuando aparezca ventaja.</li>
+</ol>
+
+<h3>Variantes</h3>
+
+<ul>
+<li>Introducir dos defensores.</li>
+<li>Limitar toques.</li>
+<li>Mayor velocidad de circulación.</li>
+</ul>
+
+<h3>Correcciones</h3>
+
+<ul>
+<li>No ocupar misma línea.</li>
+<li>Anchura máxima.</li>
+<li>Sincronizar movimientos.</li>
+<li>Control orientado.</li>
+</ul>
+
+</div>
+</div>
+
+<!-- EJERCICIO 5 -->
+
+<div class="card" id="e5">
+<div class="card-header game">
+<span>5. Partido Condicionado (18 min)</span>
+<span>▼</span>
+</div>
+
+<div class="card-content">
+
+<p><strong>Objetivo:</strong> Transferir lo aprendido a situación real.</p>
+
+<div class="diagram"
+alt="Partido de fútbol sala donde un equipo debe completar número mínimo de pases antes de finalizar">
+📋 Diagrama del ejercicio
+</div>
+
+<h3>Descripción</h3>
+
+<ol>
+<li>Partido 4x4 o 5x5.</li>
+<li>Gol vale doble tras secuencia de 5 pases.</li>
+<li>Bonus si participan todos los jugadores.</li>
+<li>Juego continuo.</li>
+</ol>
+
+<h3>Variantes</h3>
+
+<ul>
+<li>6 pases obligatorios.</li>
+<li>Limitar toques.</li>
+<li>Añadir comodín ofensivo.</li>
+</ul>
+
+<h3>Correcciones</h3>
+
+<ul>
+<li>Paciencia para conservar.</li>
+<li>Ocupar espacios libres.</li>
+<li>Movilidad permanente.</li>
+<li>Comunicación constante.</li>
+</ul>
+
+</div>
+</div>
+
+<!-- EJERCICIO 6 -->
+
+<div class="card" id="e6">
+<div class="card-header cooldown">
+<span>6. Vuelta a la Calma (5 min)</span>
+<span>▼</span>
+</div>
+
+<div class="card-content">
+
+<p><strong>Objetivo:</strong> Recuperación y reflexión.</p>
+
+<div class="diagram"
+alt="Jugadores realizando estiramientos grupales y charla final del entrenador">
+📋 Diagrama del ejercicio
+</div>
+
+<h3>Descripción</h3>
+
+<ul>
+<li>Trote suave.</li>
+<li>Movilidad articular.</li>
+<li>Estiramientos dinámicos.</li>
+<li>Feedback grupal de 2 minutos.</li>
+</ul>
+
+</div>
+</div>
+
+<!-- NOTAS -->
+
+<div class="card">
+<div class="card-header" style="background:#111827;">
+<span>Notas del Entrenador</span>
+<span>📝</span>
+</div>
+
+<div class="card-content" style="max-height:none;padding:20px;">
+<div class="notes">
+<br><br>
+Asistencia:
+<br><br><br>
+Incidencias:
+<br><br><br>
+Valoración técnica:
+<br><br><br>
+Aspectos a mejorar:
+<br><br><br>
+Plan siguiente sesión:
+</div>
+</div>
+</div>
+
+</div>
+
+<script>
+document.querySelectorAll('.card-header').forEach(header=>{
+header.addEventListener('click',()=>{
+header.parentElement.classList.toggle('active');
+});
+});
+</script>
+
+</body>
+</html>
