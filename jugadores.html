@@ -31,15 +31,15 @@
     }
 
     header h1 {
-    margin: 0;
-    font-size: 2rem;
-    font-weight: 800;
-    letter-spacing: -0.5px;
-    text-transform: uppercase;
-    background: linear-gradient(90deg, #ffffff, #a5f3fc);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
+      margin: 0;
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      text-transform: uppercase;
+      background: linear-gradient(90deg, #ffffff, #a5f3fc);
+      -webkit-background-clip: text;
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
 
     header p {
@@ -172,6 +172,10 @@
       height: 100%;
       object-fit: cover;
       display: block;
+      border-radius: 8px;
+    }
+
+    .media img {
       cursor: pointer;
       transition: transform 0.3s ease, filter 0.3s ease;
     }
@@ -248,32 +252,34 @@
     .modal-close:hover {
       color: var(--accent-color);
     }
-    .top-bar{
-    padding:20px;
-}
 
-.back-button{
-    display:inline-block;
-    background:#0066ff;
-    color:#fff;
-    text-decoration:none;
-    padding:12px 20px;
-    border-radius:10px;
-    font-weight:700;
-    transition:.3s;
-    box-shadow:0 4px 12px rgba(0,102,255,.25);
-}
+    .top-bar {
+      padding: 20px;
+    }
 
-.back-button:hover{
-    transform:translateY(-2px);
-    box-shadow:0 8px 18px rgba(0,102,255,.35);
-}
+    .back-button {
+      display: inline-block;
+      background: #0066ff;
+      color: #fff;
+      text-decoration: none;
+      padding: 12px 20px;
+      border-radius: 10px;
+      font-weight: 700;
+      transition: .3s;
+      box-shadow: 0 4px 12px rgba(0,102,255,.25);
+    }
+
+    .back-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 18px rgba(0,102,255,.35);
+    }
   </style>
 </head>
 <body>
   <div class="top-bar">
     <a href="index.html" class="back-button">← Volver</a>
-</div>
+  </div>
+
   <header>
     <h1>Entrenamiento jugadores de Fútbol Sala</h1>
     <p>Rutina de entrenamiento Duración aproximada: 60 minutos</p>
@@ -288,72 +294,65 @@
     </section>
 
     <section class="grid">
-      <!-- 1. Movilidad general (2 min) -->
+      <!-- 1. Movilidad general -->
       <article class="card">
         <div class="card-header">
           <div class="card-title">1. Rondo dinámico + movilidad articular</div>
           <div class="card-time">10-12 min</div>
         </div>
         <div class="tag">Calentamiento balón</div>
-
         <div class="media">
           <img src="Imagenes/jugador1.jpg" alt="Movilidad general y articulaciones del portero" />
         </div>
-
         <p class="card-description">
           Objetivo: activar cuerpo y mente, primer contacto con el balón, subir pulsaciones progresivamente sin carga de impacto.
         </p>
         <ul class="card-steps">
-            <li>3 min de movilidad articular general dirigida por un jugador distinto cada día (rotación de responsabilidad).
-            <li>Rondo 5x2 en cuadrado de 8x8 m: los 2 del centro presionan, se rota al perder el balón.</li>
-            <li>Variante progresiva: a partir del minuto 6, solo se puede tocar el balón a 2 toques.</li>
-            <li>Últimos 2 minutos: carrera suave con balón + cambios de dirección a la voz del entrenador.</li>
+          <li>3 min de movilidad articular general dirigida por un jugador distinto cada día (rotación de responsabilidad).</li>
+          <li>Rondo 5x2 en cuadrado de 8x8 m: los 2 del centro presionan, se rota al perder el balón.</li>
+          <li>Variante progresiva: a partir del minuto 6, solo se puede tocar el balón a 2 toques.</li>
+          <li>Últimos 2 minutos: carrera suave con balón + cambios de dirección a la voz del entrenador.</li>
           <li>Subir dificultad - Rondo a 1 toque los últimos 2 minutos.</li>
-          <li>Bajar dificultad  - Permitir controles libres y aumentar el espacio del cuadrado.</li>
+          <li>Bajar dificultad - Permitir controles libres y aumentar el espacio del cuadrado.</li>
         </ul>
       </article>
 
-      <!-- 2. Carrera suave y cambios de ritmo (3 min) -->
+      <!-- 2. Técnica -->
       <article class="card">
         <div class="card-header">
-          <div class="card-title">1. Técnica - control orientado</div>
+          <div class="card-title">2. Técnica - control orientado</div>
           <div class="card-time">10 min</div>
         </div>
         <div class="tag">Rombo de pase con control orientado</div>
-
         <div class="media">
           <img src="Imagenes/jugador2.jpg" alt="Carrera suave y cambios de ritmo" />
         </div>
-
         <p class="card-description">
-          Objetivo: mejorar el control orientado hacia el espacio libre y la calidad del pase raso a ras de suelo (base de la circulación en fútbol sala). <br>
-          Primer contacto siempre orientado, con la parte interior o exterior del pie según el ángulo. <br>
+          Objetivo: mejorar el control orientado hacia el espacio libre y la calidad del pase raso a ras de suelo.<br>
+          Primer contacto siempre orientado, con la parte interior o exterior del pie según el ángulo.<br>
           Golpeo de pase raso, con el interior del pie, sin globos.<br>
           Levantar la cabeza antes de recibir para ver la siguiente acción.
         </p>
         <ul class="card-steps">
           <li>Se forman 2 rombos de 4-5 jugadores con 4 conos marcando los vértices, separados 6-7 m entre sí.</li>
-          <li>El jugador recibe, controla orientando el balón hacia el cono siguiente (nunca parar el balón bajo el cuerpo) y pasa.</li>
-          <li>Tras pasar, el jugador se desplaza a la posición del compañero al que ha pasado (rotación continua).</li>
+          <li>El jugador recibe, controla orientando el balón hacia el cono siguiente y pasa.</li>
+          <li>Tras pasar, el jugador se desplaza a la posición del compañero al que ha pasado.</li>
           <li>Cambiar sentido de circulación cada 3 minutos.</li>
         </ul>
       </article>
 
-      <!-- 3. Desplazamientos específicos de portero (3 min) -->
+      <!-- 3. Desplazamientos específicos -->
       <article class="card">
         <div class="card-header">
           <div class="card-title">3. Desplazamientos específicos</div>
           <div class="card-time">3 min</div>
         </div>
         <div class="tag">Trabajo de pies</div>
-
         <div class="media">
           <img src="Imagenes/Portero3.jpg" alt="Desplazamientos específicos de portero" />
         </div>
-
         <p class="card-description">
           Desplazamientos cortos y rápidos dentro del área: laterales, diagonales y salidas hacia balones imaginarios.
-          Se trabaja la coordinación y la posición básica de portero.
         </p>
         <ul class="card-steps">
           <li>Desplazamientos laterales pegado a la línea de gol.</li>
@@ -362,21 +361,18 @@
         </ul>
       </article>
 
-      <!-- 4. Bloqueos y caídas controladas (3 min) -->
+      <!-- 4. Bloqueos y caídas -->
       <article class="card">
         <div class="card-header">
           <div class="card-title">4. Bloqueos y caídas controladas</div>
           <div class="card-time">3 min</div>
         </div>
         <div class="tag">Técnica de portero</div>
-
         <div class="media">
           <img src="Imagenes/Portero4.jpg" alt="Bloqueos y caídas controladas" />
         </div>
-
         <p class="card-description">
-          Práctica de blocajes con balón (o sin balón) y caídas laterales controladas para acostumbrar el cuerpo al
-          contacto con el suelo y mejorar la técnica.
+          Práctica de blocajes con balón y caídas laterales controladas para acostumbrar el cuerpo al contacto con el suelo.
         </p>
         <ul class="card-steps">
           <li>Blocajes frontales a la altura del pecho.</li>
@@ -385,21 +381,18 @@
         </ul>
       </article>
 
-      <!-- 5. Disparos suaves y reacción (4 min) -->
+      <!-- 5. Disparos suaves -->
       <article class="card">
         <div class="card-header">
           <div class="card-title">5. Disparos suaves y reacción</div>
           <div class="card-time">4 min</div>
         </div>
         <div class="tag">Reflejos y contacto</div>
-
         <div class="media">
           <img src="Imagenes/Portero5.jpg" alt="Disparos suaves y reacción" />
         </div>
-
         <p class="card-description">
-          El portero recibe disparos suaves desde distintas posiciones (frontal, lateral, media distancia) para activar
-          reflejos, coordinación mano-ojo y sensaciones de partido.
+          El portero recibe disparos suaves desde distintas posiciones para activar reflejos y coordinación mano-ojo.
         </p>
         <ul class="card-steps">
           <li>Disparos frontales a media altura.</li>
@@ -408,21 +401,18 @@
         </ul>
       </article>
 
-      <!-- 6. Estiramientos breves y concentración (≈ 1 min) -->
+      <!-- 6. Estiramientos -->
       <article class="card">
         <div class="card-header">
           <div class="card-title">6. Estiramientos y concentración</div>
           <div class="card-time">1–2 min</div>
         </div>
         <div class="tag">Vuelta a la calma</div>
-
         <div class="media">
           <img src="Imagenes/Portero6.jpg" alt="Estiramientos breves y concentración" />
         </div>
-
         <p class="card-description">
-          Estiramientos dinámicos suaves y respiraciones profundas para terminar el calentamiento, mantener la
-          activación sin perder movilidad y entrar concentrado al partido.
+          Estiramientos dinámicos suaves y respiraciones profundas para terminar el calentamiento.
         </p>
         <ul class="card-steps">
           <li>Estiramientos de cuádriceps, isquios y gemelos.</li>
@@ -430,95 +420,96 @@
           <li>3–4 respiraciones profundas visualizando las primeras acciones.</li>
         </ul>
       </article>
-      <!-- 7 -->
-<article class="card">
-  <div class="card-header">
-    <div class="card-title">7. Vídeo técnico Instagram</div>
-    <div class="card-time">Play</div>
-  </div>
-  <div class="tag">Vídeo</div>
-  <div class="media">
-    <blockquote class="instagram-media"
-      data-instgrm-permalink="https://www.instagram.com/reel/Dbj1gSDNamb/"
-      data-instgrm-version="14">
-    </blockquote>
-  </div>
-</article>
 
-<!-- 8 -->
-<article class="card">
-  <div class="card-header">
-    <div class="card-title">8. Vídeo técnico Instagram</div>
-    <div class="card-time">Play</div>
-  </div>
-  <div class="tag">Vídeo</div>
-  <div class="media">
-    <blockquote class="instagram-media"
-      data-instgrm-permalink="https://www.instagram.com/reel/DZKub9tOk7w/"
-      data-instgrm-version="14">
-    </blockquote>
-  </div>
-</article>
+      <!-- 7. Vídeo local 1 -->
+      <article class="card">
+        <div class="card-header">
+          <div class="card-title">7. Vídeo técnico 1</div>
+          <div class="card-time">Vídeo</div>
+        </div>
+        <div class="tag">Vídeo local</div>
+        <div class="media">
+          <video controls preload="metadata">
+            <source src="Videos/video1.mp4" type="video/mp4" />
+            Tu navegador no soporta el formato de vídeo.
+          </video>
+        </div>
+      </article>
 
-<!-- 9 -->
-<article class="card">
-  <div class="card-header">
-    <div class="card-title">9. Vídeo técnico Instagram</div>
-    <div class="card-time">Play</div>
-  </div>
-  <div class="tag">Vídeo</div>
-  <div class="media">
-    <blockquote class="instagram-media"
-      data-instgrm-permalink=""
-      data-instgrm-version="14">
-    </blockquote>
-  </div>
-</article>
+      <!-- 8. Vídeo local 2 -->
+      <article class="card">
+        <div class="card-header">
+          <div class="card-title">8. Vídeo técnico 2</div>
+          <div class="card-time">Vídeo</div>
+        </div>
+        <div class="tag">Vídeo local</div>
+        <div class="media">
+          <video controls preload="metadata">
+            <source src="Videos/video2.mp4" type="video/mp4" />
+            Tu navegador no soporta el formato de vídeo.
+          </video>
+        </div>
+      </article>
 
-<!-- 10 -->
-<article class="card">
-  <div class="card-header">
-    <div class="card-title">10. Vídeo técnico Instagram</div>
-    <div class="card-time">Play</div>
-  </div>
-  <div class="tag">Vídeo</div>
-  <div class="media">
-    <blockquote class="instagram-media"
-      data-instgrm-permalink=""
-      data-instgrm-version="14">
-    </blockquote>
-  </div>
-</article>
+      <!-- 9 -->
+      <article class="card">
+        <div class="card-header">
+          <div class="card-title">9. Vídeo técnico 3</div>
+          <div class="card-time">Vídeo</div>
+        </div>
+        <div class="tag">Vídeo local</div>
+        <div class="media">
+          <video controls preload="metadata">
+            <source src="Videos/video3.mp4" type="video/mp4" />
+            Tu navegador no soporta el formato de vídeo.
+          </video>
+        </div>
+      </article>
 
-<!-- 11 -->
-<article class="card">
-  <div class="card-header">
-    <div class="card-title">11. Vídeo técnico Instagram</div>
-    <div class="card-time">Play</div>
-  </div>
-  <div class="tag">Vídeo</div>
-  <div class="media">
-    <blockquote class="instagram-media"
-      data-instgrm-permalink=""
-      data-instgrm-version="14">
-    </blockquote>
-  </div>
-</article>
+      <!-- 10 -->
+      <article class="card">
+        <div class="card-header">
+          <div class="card-title">10. Vídeo técnico 4</div>
+          <div class="card-time">Vídeo</div>
+        </div>
+        <div class="tag">Vídeo local</div>
+        <div class="media">
+          <video controls preload="metadata">
+            <source src="Videos/video4.mp4" type="video/mp4" />
+            Tu navegador no soporta el formato de vídeo.
+          </video>
+        </div>
+      </article>
 
-<!-- 12 -->
-<article class="card">
-  <div class="card-header">
-    <div class="card-title">12. Vídeo técnico Instagram</div>
-    <div class="card-time">Play</div>
-  </div>
-  <div class="tag">Vídeo</div>
-  <div class="media">
-    <blockquote class="instagram-media"
-      data-instgrm-permalink=""
-      data-instgrm-version="14">
-    </blockquote>
-  </div>
-</article>
+      <!-- 11 -->
+      <article class="card">
+        <div class="card-header">
+          <div class="card-title">11. Vídeo técnico 5</div>
+          <div class="card-time">Vídeo</div>
+        </div>
+        <div class="tag">Vídeo local</div>
+        <div class="media">
+          <video controls preload="metadata">
+            <source src="Videos/video5.mp4" type="video/mp4" />
+            Tu navegador no soporta el formato de vídeo.
+          </video>
+        </div>
+      </article>
+
+      <!-- 12 -->
+      <article class="card">
+        <div class="card-header">
+          <div class="card-title">12. Vídeo técnico 6</div>
+          <div class="card-time">Vídeo</div>
+        </div>
+        <div class="tag">Vídeo local</div>
+        <div class="media">
+          <video controls preload="metadata">
+            <source src="Videos/video6.mp4" type="video/mp4" />
+            Tu navegador no soporta el formato de vídeo.
+          </video>
+        </div>
+      </article>
     </section>
   </main>
 
@@ -526,50 +517,42 @@
     Página de ejemplo para GitHub · Personaliza imágenes, vídeos y tiempos según tu portero y tu equipo.
   </footer>
 
-  <!-- CONTENEDOR DEL MODAL -->
-<div id="imageModal" class="modal">
-  <span class="modal-close">&times;</span>
-  <img class="modal-content" id="imgExpanded" alt="Imagen ampliada" />
-</div>
+  <!-- CONTENEDOR DEL MODAL PARA IMÁGENES -->
+  <div id="imageModal" class="modal">
+    <span class="modal-close">&times;</span>
+    <img class="modal-content" id="imgExpanded" alt="Imagen ampliada" />
+  </div>
 
-<!-- JAVASCRIPT -->
-<script async src="https://www.instagram.com/embed.js"></script>
+  <!-- JAVASCRIPT -->
+  <script>
+    const modal = document.getElementById('imageModal');
+    const modalImg = document.getElementById('imgExpanded');
+    const closeBtn = document.querySelector('.modal-close');
 
-<script>
-  // Asegura que Instagram renderice el player si el script tarda en cargar
-  window.addEventListener('load', () => {
-    if (window.instgrm) {
-      window.instgrm.Embeds.process();
-    }
-  });
-
-  const modal = document.getElementById('imageModal');
-  const modalImg = document.getElementById('imgExpanded');
-  const closeBtn = document.querySelector('.modal-close');
-
-  document.querySelectorAll('.media img').forEach(img => {
-    img.addEventListener('click', () => {
-      modal.style.display = 'flex';
-      modalImg.src = img.src;
-      modalImg.alt = img.alt;
+    // Ampliar solo imágenes en el modal
+    document.querySelectorAll('.media img').forEach(img => {
+      img.addEventListener('click', () => {
+        modal.style.display = 'flex';
+        modalImg.src = img.src;
+        modalImg.alt = img.alt;
+      });
     });
-  });
 
-  closeBtn.addEventListener('click', () => {
-    modal.style.display = 'none';
-  });
-
-  modal.addEventListener('click', (e) => {
-    if (e.target === modal) {
+    closeBtn.addEventListener('click', () => {
       modal.style.display = 'none';
-    }
-  });
+    });
 
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-      modal.style.display = 'none';
-    }
-  });
-</script>
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) {
+        modal.style.display = 'none';
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        modal.style.display = 'none';
+      }
+    });
+  </script>
 </body>
 </html>
