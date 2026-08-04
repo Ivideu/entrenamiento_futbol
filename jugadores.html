@@ -72,6 +72,7 @@
       gap: 1.5rem;
     }
 
+    /* CASILLAS (CARDS) LLAMATIVAS Y DINÁMICAS */
     .card {
       background: var(--card-bg);
       border-radius: 16px;
@@ -86,6 +87,7 @@
       overflow: hidden;
     }
 
+    /* Borde superior decorativo animado */
     .card::before {
       content: "";
       position: absolute;
@@ -93,11 +95,12 @@
       left: 0;
       width: 100%;
       height: 4px;
-      background: linear-gradient(90deg, --primary-color, --accent-color);
+      background: linear-gradient(90deg, var(--primary-color), var(--accent-color));
       opacity: 0.8;
       transition: opacity 0.3s ease;
     }
 
+    /* Efecto Dinámico al pasar el ratón */
     .card:hover {
       transform: translateY(-6px);
       box-shadow: 0 12px 25px rgba(0, 102, 255, 0.15);
@@ -194,46 +197,6 @@
       margin-bottom: 0.3rem;
     }
 
-    /* Estilos para el desplegable (details) */
-    details {
-      background: #f8fafc;
-      border-radius: 8px;
-      padding: 0.5rem 0.75rem;
-      border: 1px solid #e2e8f0;
-      font-size: 0.85rem;
-    }
-
-    details summary {
-      font-weight: 700;
-      cursor: pointer;
-      color: var(--primary-color);
-      list-style: none;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    details summary::-webkit-details-marker {
-      display: none;
-    }
-
-    details summary::after {
-      content: "⌄";
-      font-size: 1.1rem;
-      font-weight: bold;
-      transition: transform 0.2s ease;
-    }
-
-    details[open] summary::after {
-      transform: rotate(180deg);
-    }
-
-    details .details-content {
-      margin-top: 0.5rem;
-      padding-top: 0.5rem;
-      border-top: 1px dashed #cbd5e1;
-    }
-
     footer {
       text-align: center;
       padding: 2rem 1rem;
@@ -244,6 +207,7 @@
       background: #ffffff;
     }
 
+    /* ESTILOS DEL MODAL (Capa Dinámica) */
     .modal {
       display: none;
       position: fixed;
@@ -283,31 +247,28 @@
     .modal-close:hover {
       color: var(--accent-color);
     }
+    .top-bar{
+    padding:20px;
+}
 
-    .top-bar {
-      padding: 20px;
-    }
+.back-button{
+    display:inline-block;
+    background:#0066ff;
+    color:#fff;
+    text-decoration:none;
+    padding:12px 20px;
+    border-radius:10px;
+    font-weight:700;
+    transition:.3s;
+    box-shadow:0 4px 12px rgba(0,102,255,.25);
+}
 
-    .back-button {
-      display: inline-block;
-      background: #0066ff;
-      color: #fff;
-      text-decoration: none;
-      padding: 12px 20px;
-      border-radius: 10px;
-      font-weight: 700;
-      transition: .3s;
-      box-shadow: 0 4px 12px rgba(0,102,255,.25);
-    }
-
-    .back-button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 8px 18px rgba(0,102,255,.35);
-    }
+.back-button:hover{
+    transform:translateY(-2px);
+    box-shadow:0 8px 18px rgba(0,102,255,.35);
+}
   </style>
 </head>
-<!-- Script oficial de Instagram para procesar embeds -->
-  <script async src="https://www.instagram.com/embed.js"></script>
 <body>
   <div class="top-bar">
     <a href="index.html" class="back-button">← Volver</a>
@@ -418,12 +379,11 @@
           <div class="card-title">7. Vídeo técnico Instagram</div>
           <div class="card-time">Play</div>
         </div>
-        <div class="tag">Vídeo</div>
         <div class="media">
-          <blockquote class="instagram-media" 
-            data-instgrm-permalink="https://www.instagram.com/reel/DaP3KXZg-Xl/" 
-            data-instgrm-version="14">
-          </blockquote>
+         <blockquote class="instagram-media"
+      data-instgrm-permalink="https://www.instagram.com/reel/DYi79ahI0nu/"
+      data-instgrm-version="14">
+         </blockquote>
         </div>
         <p class="card-description"></p>
         <ul class="card-steps">
@@ -437,20 +397,19 @@
     Página de calentamiento de portero.
   </footer>
 
-  <!-- MODAL DE IMÁGENES -->
+  <!-- CONTENEDOR DEL MODAL -->
   <div id="imageModal" class="modal">
     <span class="modal-close">&times;</span>
     <img class="modal-content" id="imgExpanded" alt="Imagen ampliada" />
   </div>
 
-  <!-- SCRIPTS -->
+  <!-- JAVASCRIPT -->
   <script>
     const modal = document.getElementById('imageModal');
     const modalImg = document.getElementById('imgExpanded');
     const closeBtn = document.querySelector('.modal-close');
 
-    // Evento para abrir imágenes en modal al hacer clic
-    // Este script busca todas las imágenes dentro de contenedores .media
+    // Asigna el evento de clic a todas las imágenes dentro de .media
     document.querySelectorAll('.media img').forEach(img => {
       img.addEventListener('click', () => {
         modal.style.display = 'flex';
@@ -459,23 +418,25 @@
       });
     });
 
+    // Cerrar al pulsar el botón 'X'
     closeBtn.addEventListener('click', () => {
       modal.style.display = 'none';
     });
 
+    // Cerrar al pulsar fuera de la imagen
     modal.addEventListener('click', (e) => {
       if (e.target === modal) {
         modal.style.display = 'none';
       }
     });
 
+    // Cerrar al pulsar Escape
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') {
         modal.style.display = 'none';
       }
     });
   </script>
-
-  
+  <script async src="https://www.instagram.com/embed.js"></script>
 </body>
 </html>
