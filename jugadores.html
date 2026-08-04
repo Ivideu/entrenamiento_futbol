@@ -1,314 +1,853 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Jugadores Fútbol Sala</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sesión de Entrenamiento Futsal Infantil (2º Año)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0F172A;
+            --accent: #2563EB;
+            --bg-body: #F1F5F9;
+            --card-bg: #FFFFFF;
+            --text-dark: #1E293B;
+            --text-muted: #64748B;
+            
+            /* Bloques de color */
+            --color-calentamiento: #EA580C; /* Naranja */
+            --color-tecnica: #0284C7;      /* Azul Claro */
+            --color-tactica: #7C3AED;      /* Púrpura */
+            --color-partido: #16A34A;      /* Verde */
+            --color-calma: #475569;        /* Gris */
+        }
 
-<style>
-:root{
-    --primary-color:#0066ff;
-    --accent-color:#00e676;
-    --text-dark:#0f172a;
-    --text-muted:#64748b;
-    --bg-light:#f8fafc;
-    --card-bg:#ffffff;
-}
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
 
-*{
-    box-sizing:border-box;
-}
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-dark);
+            line-height: 1.5;
+            padding-bottom: 40px;
+        }
 
-body{
-    font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
-    margin:0;
-    background:var(--bg-light);
-    color:var(--text-dark);
-}
+        /* HEADER / PORTADA */
+        header {
+            background: linear-gradient(135deg, #0F172A 0%, #1E3A8A 100%);
+            color: white;
+            padding: 24px 20px 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
 
-.top-bar{
-    padding:20px;
-}
+        .header-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
 
-.back-button{
-    display:inline-block;
-    background:#0066ff;
-    color:#fff;
-    text-decoration:none;
-    padding:12px 20px;
-    border-radius:10px;
-    font-weight:700;
-    transition:.3s;
-    box-shadow:0 4px 12px rgba(0,102,255,.25);
-}
+        .badge-methodology {
+            display: inline-block;
+            background-color: rgba(255,255,255,0.15);
+            color: #93C5FD;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 20px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
 
-.back-button:hover{
-    transform:translateY(-2px);
-    box-shadow:0 8px 18px rgba(0,102,255,.35);
-}
+        h1 {
+            font-family: 'Roboto Condensed', sans-serif;
+            font-size: 1.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 15px;
+            color: #FFFFFF;
+        }
 
-header{
-    padding:2.5rem 1.5rem;
-    text-align:center;
-    background:linear-gradient(135deg,#0f172a 0%,#1e293b 50%,#004080 100%);
-    color:#fff;
-    box-shadow:0 4px 20px rgba(0,0,0,.15);
-}
+        .meta-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.08);
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+        }
 
-header h1{
-    margin:0;
-    font-size:2rem;
-    font-weight:800;
-    text-transform:uppercase;
-    background:linear-gradient(90deg,#ffffff,#a5f3fc);
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
-}
+        .meta-item {
+            display: flex;
+            flex-direction: column;
+        }
 
-header p{
-    margin-top:.75rem;
-    color:#cbd5e1;
-    font-weight:500;
-}
+        .meta-item .label {
+            color: #94A3B8;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            font-weight: 700;
+        }
 
-main{
-    max-width:1150px;
-    margin:auto;
-    padding:2rem 1.5rem;
-}
+        .meta-item .value {
+            color: #F8FAFC;
+            font-weight: 500;
+        }
 
-.intro{
-    margin-bottom:2rem;
-    background:#fff;
-    padding:1.5rem;
-    border-radius:12px;
-    border-left:5px solid var(--primary-color);
-    color:var(--text-muted);
-    box-shadow:0 2px 10px rgba(0,0,0,.03);
-}
+        /* NAVEGACIÓN RÁPIDA */
+        nav {
+            background-color: #1E293B;
+            padding: 10px 0;
+            overflow-x: auto;
+            white-space: nowrap;
+            position: sticky;
+            top: 138px;
+            z-index: 90;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
 
-.grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
-    gap:1.5rem;
-}
+        .nav-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 0 15px;
+            display: flex;
+            gap: 8px;
+        }
 
-.card{
-    background:var(--card-bg);
-    border-radius:16px;
-    padding:1.25rem;
-    border:1px solid #e2e8f0;
-    box-shadow:0 4px 12px rgba(0,0,0,.04);
-    display:flex;
-    flex-direction:column;
-    gap:.8rem;
-    transition:.3s;
-    position:relative;
-    overflow:hidden;
-}
+        .nav-btn {
+            background: rgba(255,255,255,0.1);
+            color: #E2E8F0;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s ease;
+        }
 
-.card::before{
-    content:"";
-    position:absolute;
-    top:0;
-    left:0;
-    width:100%;
-    height:4px;
-    background:linear-gradient(90deg,var(--primary-color),var(--accent-color));
-}
+        .nav-btn:hover {
+            background: rgba(255,255,255,0.25);
+            color: white;
+        }
 
-.card:hover{
-    transform:translateY(-6px);
-    box-shadow:0 12px 25px rgba(0,102,255,.15);
-}
+        .btn-print {
+            background: #2563EB;
+            color: white;
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
 
-.card-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-}
+        /* CONTENIDO PRINCIPAL */
+        main {
+            max-width: 1000px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
 
-.card-title{
-    font-size:1.05rem;
-    font-weight:700;
-}
+        /* CARDS DE EJERCICIOS (ACORDEÓN) */
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            margin-bottom: 18px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+            overflow: hidden;
+            border: 1px solid #E2E8F0;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
 
-.card-time{
-    background:#eff6ff;
-    color:#0066ff;
-    padding:0.25rem 0.6rem;
-    border-radius:8px;
-    min-width:50px;
-    text-align:center;
-}
+        .card-header {
+            padding: 16px 20px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            user-select: none;
+            border-left: 6px solid #CBD5E1;
+        }
 
-.tag{
-    align-self:flex-start;
-    padding:.25rem .65rem;
-    border-radius:999px;
-    background:rgba(0,230,118,.15);
-    color:#008744;
-    font-size:.75rem;
-    font-weight:700;
-    text-transform:uppercase;
-}
+        .card[data-type="calentamiento"] .card-header { border-left-color: var(--color-calentamiento); }
+        .card[data-type="tecnica"] .card-header { border-left-color: var(--color-tecnica); }
+        .card[data-type="tactica"] .card-header { border-left-color: var(--color-tactica); }
+        .card[data-type="partido"] .card-header { border-left-color: var(--color-partido); }
+        .card[data-type="calma"] .card-header { border-left-color: var(--color-calma); }
 
-.media{
-    width:100%;
-    min-height:220px;
-    border-radius:10px;
-    border:2px dashed #cbd5e1;
-    background:#f8fafc;
-}
+        .card-title-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
 
-footer{
-    text-align:center;
-    padding:2rem;
-    color:var(--text-muted);
-    border-top:1px solid #e2e8f0;
-    margin-top:3rem;
-    background:#fff;
-}
-</style>
+        .badge-type {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 4px 8px;
+            border-radius: 4px;
+            color: white;
+        }
+
+        .card[data-type="calentamiento"] .badge-type { background-color: var(--color-calentamiento); }
+        .card[data-type="tecnica"] .badge-type { background-color: var(--color-tecnica); }
+        .card[data-type="tactica"] .badge-type { background-color: var(--color-tactica); }
+        .card[data-type="partido"] .badge-type { background-color: var(--color-partido); }
+        .card[data-type="calma"] .badge-type { background-color: var(--color-calma); }
+
+        .card-title {
+            font-family: 'Roboto Condensed', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .card-meta-inline {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .toggle-icon {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            transition: transform 0.3s ease;
+        }
+
+        .card.active .toggle-icon {
+            transform: rotate(180deg);
+        }
+
+        /* BODY DE LA CARD */
+        .card-body {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0, 1, 0, 1);
+            padding: 0 20px;
+            background-color: #FFFFFF;
+        }
+
+        .card.active .card-body {
+            max-height: 2500px;
+            transition: max-height 0.4s ease-in-out;
+            padding: 20px;
+            border-top: 1px solid #F1F5F9;
+        }
+
+        /* GRID DENTRO DE LA CARD */
+        .exercise-grid {
+            display: grid;
+            grid-template-columns: 1fr 320px;
+            gap: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .exercise-grid {
+                grid-template-columns: 1fr;
+            }
+            header {
+                position: relative;
+            }
+            nav {
+                top: 0;
+            }
+        }
+
+        .details-col h4 {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+            margin-top: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        .details-col h4:first-child {
+            margin-top: 0;
+        }
+
+        .details-col p, .details-col ul {
+            font-size: 0.95rem;
+            color: var(--text-dark);
+        }
+
+        .details-col ul {
+            padding-left: 20px;
+        }
+
+        .details-col li {
+            margin-bottom: 4px;
+        }
+
+        /* BLOQUES DESTACADOS */
+        .box-coaching {
+            background-color: #EFF6FF;
+            border-left: 4px solid #3B82F6;
+            padding: 10px 14px;
+            border-radius: 0 6px 6px 0;
+            margin-top: 10px;
+        }
+
+        .box-coaching h4 {
+            color: #1D4ED8;
+        }
+
+        .box-variants {
+            background-color: #F8FAFC;
+            border: 1px dashed #CBD5E1;
+            padding: 10px 14px;
+            border-radius: 6px;
+            margin-top: 10px;
+        }
+
+        /* CONTENEDOR DE DIAGRAMA / IMAGEN */
+        .diagram-container {
+            background-color: #F8FAFC;
+            border: 2px dashed #CBD5E1;
+            border-radius: 8px;
+            min-height: 220px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            text-align: center;
+            position: relative;
+        }
+
+        .diagram-container img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 6px;
+            display: block;
+        }
+
+        .diagram-placeholder-icon {
+            font-size: 2.5rem;
+            margin-bottom: 8px;
+            color: #94A3B8;
+        }
+
+        .diagram-prompt-text {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            background: #FFFFFF;
+            padding: 8px 10px;
+            border-radius: 4px;
+            border: 1px solid #E2E8F0;
+            margin-top: 8px;
+            text-align: left;
+            word-break: break-word;
+        }
+
+        .diagram-prompt-title {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 2px;
+            color: #475569;
+        }
+
+        /* CARD DE NOTAS DEL ENTRENADOR */
+        .notes-card {
+            background: #FFFBEB;
+            border: 1px solid #FCD34D;
+        }
+
+        .notes-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 10px;
+        }
+
+        .note-box {
+            background: white;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #FDE68A;
+            min-height: 80px;
+        }
+
+        .note-box label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #D97706;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .note-box textarea {
+            width: 100%;
+            height: 50px;
+            border: none;
+            resize: none;
+            font-family: inherit;
+            font-size: 0.9rem;
+            outline: none;
+            background: transparent;
+        }
+
+        /* ESTILOS DE IMPRESIÓN */
+        @media print {
+            body {
+                background: white;
+                color: black;
+                font-size: 10pt;
+            }
+
+            header {
+                background: none;
+                color: black;
+                padding: 0;
+                box-shadow: none;
+                position: static;
+                border-bottom: 2px solid black;
+                margin-bottom: 15px;
+            }
+
+            .badge-methodology {
+                border: 1px solid black;
+                color: black;
+            }
+
+            h1 {
+                color: black;
+                font-size: 16pt;
+            }
+
+            .meta-grid {
+                background: none;
+                border: 1px solid #ccc;
+                color: black;
+            }
+
+            .meta-item .label { color: #555; }
+            .meta-item .value { color: black; }
+
+            nav {
+                display: none;
+            }
+
+            .card {
+                break-inside: avoid;
+                box-shadow: none;
+                border: 1px solid #666;
+                margin-bottom: 15px;
+                page-break-inside: avoid;
+            }
+
+            .card-header {
+                background-color: #f0f0f0 !important;
+                border-left-width: 4px !important;
+                padding: 8px 12px;
+            }
+
+            .card-body {
+                max-height: none !important;
+                padding: 12px !important;
+                display: block !important;
+            }
+
+            .toggle-icon {
+                display: none;
+            }
+
+            .exercise-grid {
+                grid-template-columns: 1fr 240px;
+                gap: 10px;
+            }
+
+            .diagram-container {
+                min-height: 150px;
+                border: 1px solid #999;
+            }
+
+            .diagram-prompt-text {
+                font-size: 6.5pt;
+            }
+        }
+    </style>
 </head>
-
 <body>
 
-<div class="top-bar">
-    <a href="index.html" class="back-button">← Volver</a>
-</div>
-
-<header>
-    <h1>Jugadores de Fútbol Sala</h1>
-    <p>Biblioteca de ejercicios técnicos y tácticos</p>
-</header>
-
-<main>
-
-    <section class="intro">
-        <p>
-            Página preparada para añadir ejercicios, imágenes y vídeos para jugadores de fútbol sala.
-            Todas las fichas están vacías y listas para personalizar.
-        </p>
-    </section>
-
-    <section class="grid">
-
-        <article class="card">
-            <div class="card-header">
-                <div class="card-title">1. Ejercicio</div>
-                <div class="card-time"></div>
+    <!-- PORTADA / CABECERA -->
+    <header>
+        <div class="header-container">
+            <span class="badge-methodology">Metodología RFEF / UEFA — Futsal</span>
+            <h1>Sesión: Gemini</h1>
+            
+            <div class="meta-grid">
+                <div class="meta-item">
+                    <span class="label">Categoría</span>
+                    <span class="value">Infantil (13-14 años) 2º Año</span>
+                </div>
+                <div class="meta-item">
+                    <span class="label">Jugadores</span>
+                    <span class="value">12 Jugadores + 2 Por.</span>
+                </div>
+                <div class="meta-item">
+                    <span class="label">Duración</span>
+                    <span class="value">75 Minutos</span>
+                </div>
+                <div class="meta-item">
+                    <span class="label">Espacio</span>
+                    <span class="value">Pista Completa (40x20m)</span>
+                </div>
+                <div class="meta-item">
+                    <span class="label">Fase Temporada</span>
+                    <span class="value">Competición (Mesociclo 2)</span>
+                </div>
+                <div class="meta-item">
+                    <span class="label">Material</span>
+                    <span class="value">12 Balones, 16 Conos, Petos (3 col), Escalera agilidad</span>
+                </div>
             </div>
-            <div class="tag">Pendiente</div>
-            <div class="media"></div>
-        </article>
+        </div>
+    </header>
 
-        <article class="card">
-            <div class="card-header">
-                <div class="card-title">2. Ejercicio</div>
-                <div class="card-time"></div>
+    <!-- BARRA DE NAVEGACIÓN -->
+    <nav>
+        <div class="nav-container">
+            <a href="#ej1" class="nav-btn">1. Calentamiento</a>
+            <a href="#ej2" class="nav-btn">2. Técnica/Táctica</a>
+            <a href="#ej3" class="nav-btn">3. Automatismo 4-0</a>
+            <a href="#ej4" class="nav-btn">4. Partido Condicionado</a>
+            <a href="#ej5" class="nav-btn">5. Vuelta a la Calma</a>
+            <button class="nav-btn btn-print" onclick="window.print()">🖨️ Imprimir Sesión</button>
+        </div>
+    </nav>
+
+    <main>
+
+        <!-- EJERCICIO 1: CALENTAMIENTO -->
+        <div class="card active" data-type="calentamiento" id="ej1">
+            <div class="card-header" onclick="toggleCard(this)">
+                <div class="card-title-group">
+                    <span class="badge-type">Calentamiento</span>
+                    <span class="card-title">1. Rondo Dinámico 4x2 con Movilidad de Falso Pívot</span>
+                </div>
+                <div class="card-meta-inline">
+                    <span>⏱️ 12 min</span>
+                    <span class="toggle-icon">▼</span>
+                </div>
             </div>
-            <div class="tag">Pendiente</div>
-            <div class="media"></div>
-        </article>
+            <div class="card-body">
+                <div class="exercise-grid">
+                    <div class="details-col">
+                        <h4>Objetivos</h4>
+                        <p><strong>Técnico/Táctico:</strong> Pase tenso con interior, perfilación ofensiva, orientación del cuerpo y movilidad tras pase.<br>
+                        <strong>Físico/Psicológico:</strong> Activación cardiorrespiratoria, agilidad reactiva, toma de decisiones bajo presión lúdica.</p>
 
-        <article class="card">
-            <div class="card-header">
-                <div class="card-title">3. Ejercicio</div>
-                <div class="card-time"></div>
+                        <h4>Organización y Desarrollo</h4>
+                        <p>Se delimita un cuadro de 8x8 metros. Cuatro jugadores exteriores frente a dos defensores interiores en busca de interceptar.</p>
+                        <ul>
+                            <li>Máximo 2 toques por jugador. Se busca alternar pase corto y pase filtrado.</li>
+                            <li><strong>Regla lúdica:</strong> Si los exteriores consiguen dar 8 pases consecutivos o filtrar un pase que pase entre los dos defensores ("entre líneas"), los defensores pagan con 3 flexiones rápidas y continúan dentro.</li>
+                            <li>Cada 2 minutos se rotan las parejas defensoras.</li>
+                        </ul>
+
+                        <div class="box-variants">
+                            <h4>Variantes Progresivas</h4>
+                            <p><strong>+ Dificultad:</strong> Limitar a 1 toque obligatorio o reducir el espacio a 6x6m.<br>
+                            <strong>- Dificultad:</strong> Permitir 3 toques o jugar 5x2 en espacio más amplio.</p>
+                        </div>
+
+                        <div class="box-coaching">
+                            <h4>Puntos Clave de Corrección (Coach)</h4>
+                            <ul>
+                                | Indicadores visuales y correcciones:
+                                <li>Exigir que el pase vaya a la pierna alejada del compañero para facilitar la salida.</li>
+                                <li>Insistir en la perfilación corporal (nunca dar la espalda al balón ni a la jugada).</li>
+                                <li>Fomentar la comunicación verbal ("¡Solo!", "¡Cara!", "¡Tercer hombre!").</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="diagram-container">
+                        <div class="diagram-placeholder-icon">📋</div>
+                        <strong>Diagrama del Ejercicio 1</strong>
+                        <div class="diagram-prompt-text">
+                            <span class="diagram-prompt-title">Prompt para IA de imagen:</span>
+                            "Futsal tactics diagram, 2D top-down view, 8x8 meter square grid on a blue futsal court. 4 attacking players in red jerseys positioned on the outer edges, 2 defending players in yellow jerseys inside. Dotted arrows showing ball pass trajectory between red players, solid arrows showing defender movement."
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="tag">Pendiente</div>
-            <div class="media"></div>
-        </article>
+        </div>
 
-        <article class="card">
-            <div class="card-header">
-                <div class="card-title">4. Ejercicio</div>
-                <div class="card-time"></div>
+        <!-- EJERCICIO 2: TÉCNICA / TÁCTICA INDIVIDUAL -->
+        <div class="card active" data-type="tecnica" id="ej2">
+            <div class="card-header" onclick="toggleCard(this)">
+                <div class="card-title-group">
+                    <span class="badge-type">Técnica / Táctica</span>
+                    <span class="card-title">2. Salida en Paralela y Diagonal con Oposición Pasiva/Activa (2x2 + Portero)</span>
+                </div>
+                <div class="card-meta-inline">
+                    <span>⏱️ 15 min</span>
+                    <span class="toggle-icon">▼</span>
+                </div>
             </div>
-            <div class="tag">Pendiente</div>
-            <div class="media"></div>
-        </article>
+            <div class="card-body">
+                <div class="exercise-grid">
+                    <div class="details-col">
+                        <h4>Objetivos</h4>
+                        <p><strong>Técnico:</strong> Control orientado con la suela, pase al espacio (paralela/diagonal) y temporización.<br>
+                        <strong>Táctico:</strong> Reconocimiento de líneas de pase en salida de presión, sincronización del desmarque de ruptura.</p>
 
-        <article class="card">
-            <div class="card-header">
-                <div class="card-title">5. Ejercicio</div>
-                <div class="card-time"></div>
+                        <h4>Organización y Desarrollo</h4>
+                        <p>Se trabaja en medio campo (20x20m). Un cierre y un ala atacantes se enfrentan a dos defensores colocados en marca individual a media pista.</p>
+                        <ul>
+                            <li>El cierre inicia con balón. El ala realiza un falso desmarque hacia el balón y rompe en velocidad a la <strong>paralela</strong> o marca la <strong>diagonal</strong> a la espalda de su defensor.</li>
+                            <li>Fase 1 (5 min): Oposición pasiva (defensores solo puntean la trayectoria).</li>
+                            <li>Fase 2 (10 min): Oposición activa real 2x2 con finalización en portería reglamentaria defendida por el portero. Si la defensa roba, busca gol en dos mini-porterías en media pista.</li>
+                        </ul>
+
+                        <div class="box-variants">
+                            <h4>Variantes Progresivas</h4>
+                            <p><strong>+ Dificultad:</strong> Incorporar un tiempo límite de 6 segundos para finalizar tras superar la primera línea de presión.<br>
+                            <strong>- Dificultad:</strong> Permitir que el portero participe como comodín ofensivo haciendo un 3x2.</p>
+                        </div>
+
+                        <div class="box-coaching">
+                            <h4>Puntos Clave de Corrección (Coach)</h4>
+                            <ul>
+                                <li>El desmarque debe ser explosivo (cambio de ritmo e intención claro).</li>
+                                <li>El pasador debe amagar la mirada antes de filtrar la paralela para fijar al defensor.</li>
+                                <li>El receptor debe pisar el balón en carrera si recibe en paralela para no perder ángulo de disparo/centro.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="diagram-container">
+                        <div class="diagram-placeholder-icon">📋</div>
+                        <strong>Diagrama del Ejercicio 2</strong>
+                        <div class="diagram-prompt-text">
+                            <span class="diagram-prompt-title">Prompt para IA de imagen:</span>
+                            "Futsal training diagram, half court 20x20m. Attacker 1 passing to Attacker 2 who cuts along the sideline (parallel movement). Two defenders chasing. Curved movement line showing the fake movement before sprinting down the line. Futsal goal at top with goalkeeper ready."
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="tag">Pendiente</div>
-            <div class="media"></div>
-        </article>
+        </div>
 
-        <article class="card">
-            <div class="card-header">
-                <div class="card-title">6. Ejercicio</div>
-                <div class="card-time"></div>
+        <!-- EJERCICIO 3: TÁCTICA COLECTIVA (SISTEMA 4-0) -->
+        <div class="card active" data-type="tactica" id="ej3">
+            <div class="card-header" onclick="toggleCard(this)">
+                <div class="card-title-group">
+                    <span class="badge-type">Táctica Colectiva</span>
+                    <span class="card-title">3. Automatismo 4-0: Rueda de Rotaciones Completa y Aclarado (4x4)</span>
+                </div>
+                <div class="card-meta-inline">
+                    <span>⏱️ 18 min</span>
+                    <span class="toggle-icon">▼</span>
+                </div>
             </div>
-            <div class="tag">Pendiente</div>
-            <div class="media"></div>
-        </article>
+            <div class="card-body">
+                <div class="exercise-grid">
+                    <div class="details-col">
+                        <h4>Objetivos</h4>
+                        <p><strong>Táctico Colectivo:</strong> Estructuración espacial en 4-0 (creación de espacios vacíos), lectura de aclarados y transiciones tras la superación de línea.<br>
+                        <strong>Físico:</strong> Resistencia específica con cambios de dirección y aceleraciones intensas.</p>
 
-        <article class="card">
-            <div class="card-header">
-                <div class="card-title">7. Ejercicio</div>
-                <div class="card-time"></div>
+                        <h4>Organización y Desarrollo</h4>
+                        <p>Situación de 4x4 en pista completa con 2 porteros. El equipo atacante inicia situado en una línea de 4 jugadores paralela a su propia área de 6m.</p>
+                        <ul>
+                            <li><strong>Circulación de balón:</strong> Pase al ala -> Desmarque en diagonal del pasador al espacio opuesto -> Ocupación del espacio libre por el compañero contiguo (rotación fluida).</li>
+                            <li><strong>Señal de ataque:</strong> Cuando se genera un 1x1 en banda tras aclarado o cuando el cierre encuentra un pase filtrado al desmarque diagonal directo.</li>
+                            <li>Si hay pérdida de balón, el equipo que atacaba debe realizar <strong>repliegue defensivo intensivo</strong> antes de que el rival supere el medio campo.</li>
+                        </ul>
+
+                        <div class="box-variants">
+                            <h4>Variantes Progresivas</h4>
+                            <p><strong>+ Dificultad:</strong> Máximo 4 pases antes de hundir la defensa y obligar a finalizar la jugada.<br>
+                            <strong>- Dificultad:</strong> La defensa no puede presionar más allá de los 10 metros en los primeros 3 pases.</p>
+                        </div>
+
+                        <div class="box-coaching">
+                            <h4>Puntos Clave de Corrección (Coach)</h4>
+                            <ul>
+                                <li>No encajonarse contra la línea de banda: mantener la distancia de seguridad entre apoyos.</li>
+                                <li>La rotación no es un baile fijo; si el defensor no sigue el desmarque, el jugador que corta DEBE recibir el balón.</li>
+                                <li>Asegurar siempre el equilibrio defensivo (un jugador en vigilancia tras la rotación).</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="diagram-container">
+                        <div class="diagram-placeholder-icon">📋</div>
+                        <strong>Diagrama del Ejercicio 3</strong>
+                        <div class="diagram-prompt-text">
+                            <span class="diagram-prompt-title">Prompt para IA de imagen:</span>
+                            "Futsal tactical system 4-0 rotation diagram, full court view. 4 attacking players lined up horizontally in deep backcourt. Tactical arrows showing Player A passing to Player B, then sprinting diagonally across the court creating an open lane (aclarado)."
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="tag">Pendiente</div>
-            <div class="media"></div>
-        </article>
+        </div>
 
-        <article class="card">
-            <div class="card-header">
-                <div class="card-title">8. Ejercicio</div>
-                <div class="card-time"></div>
+        <!-- EJERCICIO 4: PARTIDO CONDICIONADO -->
+        <div class="card active" data-type="partido" id="ej4">
+            <div class="card-header" onclick="toggleCard(this)">
+                <div class="card-title-group">
+                    <span class="badge-type">Partido Real</span>
+                    <span class="card-title">4. Partido Real 4x4 + Porteros con Premia a Salida 4-0</span>
+                </div>
+                <div class="card-meta-inline">
+                    <span>⏱️ 20 min</span>
+                    <span class="toggle-icon">▼</span>
+                </div>
             </div>
-            <div class="tag">Pendiente</div>
-            <div class="media"></div>
-        </article>
+            <div class="card-body">
+                <div class="exercise-grid">
+                    <div class="details-col">
+                        <h4>Objetivos</h4>
+                        <p><strong>Competitivo:</strong> Aplicación real de los conceptos trabajados (rotación 4-0, paralela, aclarado y repliegue rápido) en contexto de juego real bajo reglas de la RFEF.</p>
 
-        <article class="card">
-            <div class="card-header">
-                <div class="card-title">9. Ejercicio</div>
-                <div class="card-time"></div>
+                        <h4>Organización y Desarrollo</h4>
+                        <p>Partido formal 4x4 con 2 porteros. Se aplican las reglas oficiales de fútbol sala (faltas acumulativas, saques de banda con el pie, 4 segundos).</p>
+                        <ul>
+                            <li><strong>Regla de puntuación condicionada:</strong> 
+                                <ul>
+                                    <li>Gol normal = 1 Punto.</li>
+                                    <li>Gol conseguido tras una secuencia previa de salida en 4-0 con paralela o diagonal limpia = <strong>3 Puntos</strong>.</li>
+                                </ul>
+                            </li>
+                            <li>El equipo defensor presiona alto obligando a trabajar la salida de presión ensayada.</li>
+                            <li>Bloques de 8 minutos con 2 minutos de pausa/feedback táctico intermedio.</li>
+                        </ul>
+
+                        <div class="box-variants">
+                            <h4>Variantes Progresivas</h4>
+                            <p><strong>+ Dificultad:</strong> El equipo que va ganando solo dispone de 3 toques por jugador.<br>
+                            <strong>- Dificultad:</strong> Permitir que el saque de meta del portero sea jugado con la mano cruzando la primera línea si la presión es agobiante.</p>
+                        </div>
+
+                        <div class="box-coaching">
+                            <h4>Puntos Clave de Corrección (Coach)</h4>
+                            <ul>
+                                <li>Evaluar la toma de decisiones: ¿Saben cuándo salir jugando en 4-0 y cuándo jugar directo si la presión está muy hundida?</li>
+                                <li>Gestionar la intensidad competitiva adecuada para la categoría infantil sin perder el orden táctico.</li>
+                                <li>Exigir concentración máxima en las vigilancias defensivas cuando estamos en fase ofensiva.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="diagram-container">
+                        <div class="diagram-placeholder-icon">📋</div>
+                        <strong>Diagrama del Ejercicio 4</strong>
+                        <div class="diagram-prompt-text">
+                            <span class="diagram-prompt-title">Prompt para IA de imagen:</span>
+                            "Full futsal court match setup 4v4 plus goalkeepers, high pressing defenses in red, attacking team in yellow building up from back court. High-intensity competitive setting layout."
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="tag">Pendiente</div>
-            <div class="media"></div>
-        </article>
+        </div>
 
-        <article class="card">
-            <div class="card-header">
-                <div class="card-title">10. Ejercicio</div>
-                <div class="card-time"></div>
+        <!-- EJERCICIO 5: VUELTA A LA CALMA -->
+        <div class="card active" data-type="calma" id="ej5">
+            <div class="card-header" onclick="toggleCard(this)">
+                <div class="card-title-group">
+                    <span class="badge-type">Vuelta a la Calma</span>
+                    <span class="card-title">5. Regenerativo, Estiramientos Estáticos y Debriefing Grupal</span>
+                </div>
+                <div class="card-meta-inline">
+                    <span>⏱️ 10 min</span>
+                    <span class="toggle-icon">▼</span>
+                </div>
             </div>
-            <div class="tag">Pendiente</div>
-            <div class="media"></div>
-        </article>
+            <div class="card-body">
+                <div class="exercise-grid">
+                    <div class="details-col">
+                        <h4>Objetivos</h4>
+                        <p><strong>Físico:</strong> Normalización del tono muscular, bajada de pulsaciones y prevención de lesiones (especial atención en fase de crecimiento infantil: isquiotibiales, gemelos y cuádriceps).<br>
+                        <strong>Psicológico:</strong> Asimilación de conceptos clave, feedback bidireccional entre cuerpo técnico y jugadores.</p>
 
-        <article class="card">
-            <div class="card-header">
-                <div class="card-title">11. Ejercicio</div>
-                <div class="card-time"></div>
+                        <h4>Organización y Desarrollo</h4>
+                        <ul>
+                            <li>2 vueltas a la pista al trote muy suave en grupo manteniendo conversación reflexiva sobre la sesión.</li>
+                            <li>Rutina de estiramientos estáticos asistidos/individuales dirigidos por el capitán del equipo (20-30 segundos por grupo muscular).</li>
+                            <li><strong>Charla final (Debriefing):</strong> El entrenador realiza 3 preguntas clave a los jugadores:
+                                1. ¿Cuándo hemos encontrado más espacio en la salida 4-0?
+                                2. ¿Qué ocurre si el ala no rompe al 100% de intensidad en la paralela?
+                                3. Valoración de la actitud colectiva en la presión.</li>
+                        </ul>
+
+                        <div class="box-coaching">
+                            <h4>Aspectos A Tener en Cuenta (Edad Infantil)</h4>
+                            <ul>
+                                <li>En edades de 13-14 años (estirón puberal), prestar atención a molestias en el tendón rotuliano (Osgood-Schlatter) o inserciones tendinosas.</li>
+                                <li>Terminar siempre la sesión con refuerzo positivo grupal.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="diagram-container">
+                        <div class="diagram-placeholder-icon">🧘‍♂️</div>
+                        <strong>Vuelta a la Calma / Feedback</strong>
+                        <div class="diagram-prompt-text">
+                            <span class="diagram-prompt-title">Nota:</span>
+                            Fase de recuperación física y consolidación cognitiva de los aprendizajes del entrenamiento.
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="tag">Pendiente</div>
-            <div class="media"></div>
-        </article>
+        </div>
 
-        <article class="card">
-            <div class="card-header">
-                <div class="card-title">12. Ejercicio</div>
-                <div class="card-time"></div>
+        <!-- CARD: NOTAS DEL ENTRENADOR (PARA RELLENAR TRAS ENTRENAR) -->
+        <div class="card notes-card active" id="notas">
+            <div class="card-header" onclick="toggleCard(this)">
+                <div class="card-title-group">
+                    <span class="badge-type" style="background-color: #D97706;">Cuaderno de Campo</span>
+                    <span class="card-title">📋 Notas Post-Entrenamiento del Entrenador</span>
+                </div>
+                <div class="card-meta-inline">
+                    <span class="toggle-icon">▼</span>
+                </div>
             </div>
-            <div class="tag">Pendiente</div>
-            <div class="media"></div>
-        </article>
+            <div class="card-body">
+                <div class="notes-grid">
+                    <div class="note-box">
+                        <label>Asistencia y Bajas</label>
+                        <textarea placeholder="Jugadores ausentes, motivos, lesionados..."></textarea>
+                    </div>
+                    <div class="note-box">
+                        <label>Valoración del Aprendizaje</label>
+                        <textarea placeholder="¿Se cumplió el objetivo del 4-0? ¿Qué aspectos fallaron?"></textarea>
+                    </div>
+                    <div class="note-box">
+                        <label>Jugadores Destacados / A mejorar</label>
+                        <textarea placeholder="Aspectos individuales a corregir en la próxima sesión..."></textarea>
+                    </div>
+                    <div class="note-box">
+                        <label>Incidencias / Tareas Próximo Partido</label>
+                        <textarea placeholder="Molestias físicas, recordatorios tácticos..."></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    </section>
+    </main>
 
-</main>
-
-<footer>
-    Biblioteca de ejercicios para jugadores de fútbol sala
-</footer>
-
+    <script>
+        function toggleCard(headerElement) {
+            const card = headerElement.parentElement;
+            card.classList.toggle('active');
+        }
+    </script>
 </body>
 </html>
