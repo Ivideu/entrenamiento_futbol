@@ -154,7 +154,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      min-height: 160px;
+      min-height: 180px;
       color: var(--text-muted);
       font-size: 0.85rem;
       text-align: center;
@@ -162,8 +162,7 @@
       position: relative;
     }
 
-    .media img,
-    .media video {
+    .media img {
       width: 100%;
       height: 100%;
       object-fit: cover;
@@ -175,6 +174,32 @@
     .media img:hover {
       transform: scale(1.04);
       filter: brightness(1.05);
+    }
+
+    /* Botón/Preview para abrir el vídeo en la capa modal */
+    .video-trigger {
+      width: 100%;
+      height: 100%;
+      min-height: 180px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #1e293b, #0f172a);
+      color: #fff;
+      cursor: pointer;
+      border-radius: 10px;
+      gap: 0.5rem;
+      transition: background 0.3s ease;
+    }
+
+    .video-trigger:hover {
+      background: linear-gradient(135deg, #004080, #0066ff);
+    }
+
+    .play-icon {
+      font-size: 2.5rem;
+      line-height: 1;
     }
 
     .card-description {
@@ -194,7 +219,6 @@
       margin-bottom: 0.3rem;
     }
 
-    /* Estilos para el desplegable (details) */
     details {
       background: #f8fafc;
       border-radius: 8px;
@@ -244,6 +268,7 @@
       background: #ffffff;
     }
 
+    /* ESTILOS DE LA CAPA MODAL (IMAGEN Y VÍDEO) */
     .modal {
       display: none;
       position: fixed;
@@ -260,7 +285,28 @@
       box-sizing: border-box;
     }
 
-    .modal-content {
+    .modal-container {
+      position: relative;
+      width: 100%;
+      max-width: 450px;
+      height: 80vh;
+      max-height: 750px;
+      background: #000;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-container iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
+    .modal-content-img {
       max-width: 90%;
       max-height: 90vh;
       border-radius: 12px;
@@ -270,13 +316,14 @@
 
     .modal-close {
       position: absolute;
-      top: 20px;
+      top: 15px;
       right: 25px;
       color: #fff;
       font-size: 35px;
       font-weight: bold;
       cursor: pointer;
       user-select: none;
+      z-index: 1001;
       transition: color 0.2s ease;
     }
 
@@ -333,7 +380,7 @@
         <div class="tag">👥 10 jugadores · ⚽ 2 balones</div>
 
         <div class="media">
-          <!-- Espacio para imagen o vídeo representativo -->
+          <!-- Espacio para imagen -->
         </div>
 
         <p class="card-description">
@@ -371,9 +418,7 @@
         <div class="tag">Categoría</div>
         <div class="media"></div>
         <p class="card-description"></p>
-        <ul class="card-steps">
-          <li></li>
-        </ul>
+        <ul class="card-steps"><li></li></ul>
       </article>
 
       <!-- Ficha 3 -->
@@ -385,9 +430,7 @@
         <div class="tag">Categoría</div>
         <div class="media"></div>
         <p class="card-description"></p>
-        <ul class="card-steps">
-          <li></li>
-        </ul>
+        <ul class="card-steps"><li></li></ul>
       </article>
 
       <!-- Ficha 4 -->
@@ -399,9 +442,7 @@
         <div class="tag">Categoría</div>
         <div class="media"></div>
         <p class="card-description"></p>
-        <ul class="card-steps">
-          <li></li>
-        </ul>
+        <ul class="card-steps"><li></li></ul>
       </article>
 
       <!-- Ficha 5 -->
@@ -413,9 +454,7 @@
         <div class="tag">Categoría</div>
         <div class="media"></div>
         <p class="card-description"></p>
-        <ul class="card-steps">
-          <li></li>
-        </ul>
+        <ul class="card-steps"><li></li></ul>
       </article>
 
       <!-- Ficha 6 -->
@@ -427,9 +466,7 @@
         <div class="tag">Categoría</div>
         <div class="media"></div>
         <p class="card-description"></p>
-        <ul class="card-steps">
-          <li></li>
-        </ul>
+        <ul class="card-steps"><li></li></ul>
       </article>
 
       <!-- Ficha 7 -->
@@ -440,15 +477,13 @@
         </div>
         <div class="tag">Vídeo</div>
         <div class="media">
-          <blockquote class="instagram-media" 
-            data-instgrm-permalink="https://www.instagram.com/reel/DaP3KXZg-Xl/" 
-            data-instgrm-version="14">
-          </blockquote>
+          <div class="video-trigger" data-video-url="https://www.instagram.com/reel/DaP3KXZg-Xl/embed">
+            <span class="play-icon">▶</span>
+            <span>Ver vídeo</span>
+          </div>
         </div>
         <p class="card-description"></p>
-        <ul class="card-steps">
-          <li></li>
-        </ul>
+        <ul class="card-steps"><li></li></ul>
       </article>
     </section>
   </main>
@@ -457,45 +492,59 @@
     Página de calentamiento de portero.
   </footer>
 
-  <!-- MODAL DE IMÁGENES -->
-  <div id="imageModal" class="modal">
+  <!-- MODAL PARA REPRODUCIR VÍDEOS E IMÁGENES EN CAPA NUEVA -->
+  <div id="mediaModal" class="modal">
     <span class="modal-close">&times;</span>
-    <img class="modal-content" id="imgExpanded" alt="Imagen ampliada" />
+    <div id="modalBody" class="modal-container" style="display: none;"></div>
+    <img id="imgExpanded" class="modal-content-img" style="display: none;" alt="Imagen ampliada" />
   </div>
 
   <!-- SCRIPTS -->
   <script>
-    const modal = document.getElementById('imageModal');
+    const modal = document.getElementById('mediaModal');
+    const modalBody = document.getElementById('modalBody');
     const modalImg = document.getElementById('imgExpanded');
     const closeBtn = document.querySelector('.modal-close');
 
-    // Evento para abrir imágenes en modal al hacer clic
+    // Función para cerrar la capa
+    function closeModal() {
+      modal.style.display = 'none';
+      modalBody.innerHTML = ''; // Detiene la reproducción del vídeo
+      modalBody.style.display = 'none';
+      modalImg.style.display = 'none';
+    }
+
+    // Abrir imágenes en el modal
     document.querySelectorAll('.media img').forEach(img => {
       img.addEventListener('click', () => {
-        modal.style.display = 'flex';
         modalImg.src = img.src;
         modalImg.alt = img.alt;
+        modalImg.style.display = 'block';
+        modalBody.style.display = 'none';
+        modal.style.display = 'flex';
       });
     });
 
-    closeBtn.addEventListener('click', () => {
-      modal.style.display = 'none';
+    // Abrir vídeos de Instagram en capa superpuesta
+    document.querySelectorAll('.video-trigger').forEach(trigger => {
+      trigger.addEventListener('click', () => {
+        const videoUrl = trigger.getAttribute('data-video-url');
+        modalBody.innerHTML = `<iframe src="${videoUrl}" allowfullscreen></iframe>`;
+        modalBody.style.display = 'flex';
+        modalImg.style.display = 'none';
+        modal.style.display = 'flex';
+      });
     });
 
+    closeBtn.addEventListener('click', closeModal);
+
     modal.addEventListener('click', (e) => {
-      if (e.target === modal) {
-        modal.style.display = 'none';
-      }
+      if (e.target === modal) closeModal();
     });
 
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        modal.style.display = 'none';
-      }
+      if (e.key === 'Escape') closeModal();
     });
   </script>
-
-  <!-- Script oficial de Instagram para procesar embeds -->
-  <script async src="https://www.instagram.com/embed.js"></script>
 </body>
 </html>
