@@ -194,6 +194,46 @@
       margin-bottom: 0.3rem;
     }
 
+    /* Estilos para el desplegable (details) */
+    details {
+      background: #f8fafc;
+      border-radius: 8px;
+      padding: 0.5rem 0.75rem;
+      border: 1px solid #e2e8f0;
+      font-size: 0.85rem;
+    }
+
+    details summary {
+      font-weight: 700;
+      cursor: pointer;
+      color: var(--primary-color);
+      list-style: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    details summary::-webkit-details-marker {
+      display: none;
+    }
+
+    details summary::after {
+      content: "⌄";
+      font-size: 1.1rem;
+      font-weight: bold;
+      transition: transform 0.2s ease;
+    }
+
+    details[open] summary::after {
+      transform: rotate(180deg);
+    }
+
+    details .details-content {
+      margin-top: 0.5rem;
+      padding-top: 0.5rem;
+      border-top: 1px dashed #cbd5e1;
+    }
+
     footer {
       text-align: center;
       padding: 2rem 1rem;
@@ -287,31 +327,39 @@
       <!-- Ficha 1 -->
       <article class="card">
         <div class="card-header">
-          <div class="card-title">1. Título del Ejercicio</div>
-          <div class="card-time">0 min</div>
+          <div class="card-title">1. Rondo dinámico + movilidad articular</div>
+          <div class="card-time">⏱ 12 min</div>
         </div>
-        <div class="tag">Categoría</div>
+        <div class="tag">👥 10 jugadores · ⚽ 2 balones</div>
 
         <div class="media">
-          <!-- OPCIÓN A: Para Imagen -->
-          <!-- <img src="ruta/de/imagen.jpg" alt="Descripción" /> -->
-
-          <!-- OPCIÓN B: Para Vídeo de Instagram -->
-          <!-- 
-          <blockquote class="instagram-media" 
-            data-instgrm-permalink="URL_DEL_REEL" 
-            data-instgrm-version="14">
-          </blockquote> 
-          -->
+          <!-- Espacio para imagen o vídeo representativo -->
         </div>
 
         <p class="card-description">
-          Descripción del ejercicio...
+          <strong>Objetivo:</strong> activar cuerpo y mente, primer contacto con el balón, subir pulsaciones progresivamente sin carga de impacto.
         </p>
+
+        <p class="card-description"><strong>Descripción:</strong></p>
         <ul class="card-steps">
-          <li>Paso 1...</li>
-          <li>Paso 2...</li>
+          <li>3 min de movilidad articular general dirigida por un jugador distinto cada día (rotación de responsabilidad).</li>
+          <li>Rondo 5x2 en cuadrado de 8x8 m: los 2 del centro presionan, se rota al perder el balón.</li>
+          <li>Variante progresiva: a partir del minuto 6, solo se puede tocar el balón a 2 toques.</li>
+          <li>Últimos 2 minutos: carrera suave con balón + cambios de dirección a la voz del entrenador.</li>
         </ul>
+
+        <details>
+          <summary>Variantes y Puntos Clave</summary>
+          <div class="details-content">
+            <p><strong>Subir dificultad:</strong> Rondo a 1 toque los últimos 2 minutos.</p>
+            <p><strong>Bajar dificultad:</strong> Permitir controles libres y aumentar el espacio del cuadrado.</p>
+            <p><strong>Puntos clave a corregir:</strong></p>
+            <ul>
+              <li>Postura corporal orientada antes de recibir (perfil abierto).</li>
+              <li>Comunicación verbal constante entre los que tienen el rondo.</li>
+            </ul>
+          </div>
+        </details>
       </article>
 
       <!-- Ficha 2 -->
@@ -378,6 +426,25 @@
         </div>
         <div class="tag">Categoría</div>
         <div class="media"></div>
+        <p class="card-description"></p>
+        <ul class="card-steps">
+          <li></li>
+        </ul>
+      </article>
+
+      <!-- Ficha 7 -->
+      <article class="card">
+        <div class="card-header">
+          <div class="card-title">7. Vídeo técnico Instagram</div>
+          <div class="card-time">Play</div>
+        </div>
+        <div class="tag">Vídeo</div>
+        <div class="media">
+          <blockquote class="instagram-media" 
+            data-instgrm-permalink="https://www.instagram.com/reel/DaP3KXZg-Xl/" 
+            data-instgrm-version="14">
+          </blockquote>
+        </div>
         <p class="card-description"></p>
         <ul class="card-steps">
           <li></li>
