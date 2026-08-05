@@ -5,34 +5,97 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pizarra Táctica de Fútbol Sala</title>
     <style>
-        body { font-family: Arial, sans-serif; margin: 0; padding: 20px; background-color: #1a1a1a; color: #fff; }
-        h1 { text-align: center; color: #00ff88; }
-        .container { display: flex; flex-direction: column; align-items: center; gap: 20px; }
-        .controls { display: flex; gap: 15px; background: #2a2a2a; padding: 15px; border-radius: 8px; }
-        button { background: #00ff88; color: #000; border: none; padding: 10px 20px; font-weight: bold; border-radius: 5px; cursor: pointer; }
-        button:hover { background: #00cc6e; }
-        #btnStop { background: #ff4444; color: white; display: none; }
-        #btnStop:hover { background: #cc3333; }
-        iframe { border: 3px solid #00ff88; border-radius: 8px; background: #fff; }
+        body { 
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+            margin: 0; 
+            padding: 20px; 
+            background-color: #121212; 
+            color: #ffffff; 
+        }
+        h1 { 
+            text-align: center; 
+            color: #00ff88;
+            margin-bottom: 5px;
+        }
+        p {
+            text-align: center;
+            color: #aaaaaa;
+            margin-top: 0;
+            margin-bottom: 25px;
+        }
+        .container { 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            gap: 20px; 
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .controls { 
+            display: flex; 
+            gap: 15px; 
+            background: #1e1e1e; 
+            padding: 15px 25px; 
+            border-radius: 30px; 
+            border: 1px solid #333;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+        button { 
+            background: #00ff88; 
+            color: #000000; 
+            border: none; 
+            padding: 12px 24px; 
+            font-weight: bold; 
+            border-radius: 20px; 
+            cursor: pointer; 
+            transition: all 0.2s ease;
+        }
+        button:hover { 
+            background: #00cc6e; 
+            transform: scale(1.05);
+        }
+        #btnStop { 
+            background: #ff4444; 
+            color: white; 
+            display: none; 
+        }
+        #btnStop:hover { 
+            background: #cc3333; 
+        }
+        .status-container {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            color: #00ff88;
+        }
+        iframe { 
+            border: 2px solid #333; 
+            border-radius: 12px; 
+            background: #ffffff; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+        }
     </style>
 </head>
 <body>
 
     <h1>Pizarra de Fútbol Sala Interactiva</h1>
+    <p>Diseña tus jugadas en tiempo real y graba la sesión para tus jugadores</p>
     
     <div class="container">
         <!-- Panel de Control para Grabar la Sesión -->
         <div class="controls">
             <button id="btnStart">🔴 Iniciar Grabación de Táctica</button>
             <button id="btnStop">⏹️ Detener y Descargar Video</button>
-            <span id="status" style="align-self: center; font-style: italic; color: #aaa;">Listo para grabar</span>
+            <div class="status-container">
+                <span id="status" style="font-style: italic; color: #aaa;">Listo para explicar</span>
+            </div>
         </div>
 
-        <!-- Pizarra de Fútbol Sala Integrada -->
+        <!-- Pizarra de Fútbol Sala Oficial (Servidor Corregido) -->
         <iframe 
-            src="https://tacticalboard.com" 
+            src="https://tactical-board.com" 
             width="100%" 
-            height="650px">
+            height="700px">
         </iframe>
     </div>
 
@@ -44,15 +107,17 @@
         const btnStop = document.getElementById('btnStop');
         const statusText = document.getElementById('status');
 
-        // Captura la pantalla o pestaña para grabar la sesión dinámica
+        // Captura la pantalla, ventana o pestaña para grabar la sesión dinámica
         btnStart.addEventListener('click', async () => {
             recordedChunks = [];
             try {
+                // Solicita permiso al navegador para capturar video y audio (micrófono)
                 const stream = await navigator.mediaDevices.getDisplayMedia({
                     video: { mediaSource: "screen" },
-                    audio: true // Actívalo si quieres explicar la jugada con tu micrófono
+                    audio: true 
                 });
 
+                // Configura el grabador con un formato de video web estándar
                 mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm;codecs=vp9' });
                 
                 mediaRecorder.ondataavailable = (e) => {
@@ -63,25 +128,35 @@
                     const blob = new Blob(recordedChunks, { type: 'video/webm' });
                     const url = URL.createObjectURL(blob);
                     
-                    // Descarga automática del archivo de video
+                    // Descarga automática del archivo de video al PC/Móvil
                     const a = document.createElement('a');
                     a.href = url;
                     a.download = `tactica_futsal_${new Date().toISOString().slice(0,10)}.webm`;
                     a.click();
                     
                     statusText.innerText = "Grabación descargada.";
+                    statusText.style.color = "#aaa";
                     btnStart.style.display = "inline-block";
                     btnStop.style.display = "none";
                 };
 
                 mediaRecorder.start();
-                statusText.innerText = "🔴 Grabando la pizarra...";
+                statusText.innerText = "🎥 GRABANDO LA PIZARRA...";
+                statusText.style.color = "#ff4444";
                 btnStart.style.display = "none";
                 btnStop.style.display = "inline-block";
 
+                // Detener la interfaz si el usuario cancela la grabación desde el aviso flotante del navegador
+                stream.getVideoTracks()[0].onended = () => {
+                    if (mediaRecorder.state !== "inactive") {
+                        mediaRecorder.stop();
+                    }
+                };
+
             } catch (err) {
                 console.error("Error al acceder a la grabación: ", err);
-                statusText.innerText = "Error al iniciar la grabación.";
+                statusText.innerText = "Grabación cancelada o no admitida.";
+                statusText.style.color = "#ff4444";
             }
         });
 
