@@ -9,7 +9,7 @@
         
         body { 
             font-family: 'Segoe UI', Arial, sans-serif; 
-            background-color: #f1f5f9; 
+           /* background-color: #f1f5f9; */
             color: #ffffff; 
             display: flex; 
             flex-direction: column; 
@@ -18,6 +18,24 @@
             overflow: hidden;
             position: fixed; 
         }
+
+        /* Fondo con imagen, transparencia y desenfoque */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url("Imagenes/equipaciones.jpg");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      opacity: 0.15;
+      filter: blur(8px);
+      z-index: -1;
+      pointer-events: none;
+    }
         
         /* Contenedor que ocupa el 85% de la pantalla vertical */
         #pizarraContainer { 
