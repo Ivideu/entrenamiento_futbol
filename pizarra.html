@@ -3,40 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Pizarra Futsal Pro - Fix Mobile</title>
+    <title>Pizarra Futsal Pro - Ajuste Total</title>
     <style>
-        body { 
-            font-family: 'Segoe UI', Arial, sans-serif; margin: 0; padding: 0; 
-            /*background-color: #f1f5f9; color: #1a202c; */
-            display: flex; flex-direction: column; align-items: center; 
-            width: 100vw; 
-            height: 100dvh; /* 📱 SOLUCIÓN: Altura dinámica real que evita el corte en móviles */
-            overflow: hidden;
-            box-sizing: border-box;
-        }
-        /* Fondo con imagen, transparencia y desenfoque */
-    body::before {
-      content: "";
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-image: url("Imagenes/equipaciones.jpg");
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      opacity: 0.15;
-      filter: blur(8px);
-      z-index: -1;
-      pointer-events: none;
-    }
+        /* Bloqueo total de cualquier desborde o margen fantasma */
+        * { box-sizing: border-box; margin: 0; padding: 0; }
         
-        /* 📱 DISEÑO AJUSTADO PARA PANTALLAS MÓVILES */
+        body { 
+            font-family: 'Segoe UI', Arial, sans-serif; 
+            background-color: #f1f5f9; 
+            color: #1a202c; 
+            display: flex; 
+            flex-direction: column; 
+            width: 100vw; 
+            height: 100dvh; 
+            overflow: hidden;
+            position: fixed; /* Evita que la pantalla rebote hacia arriba o abajo en iOS/Android */
+        }
+        
+        /* 📱 DISEÑO PARA MÓVIL: Reparto exacto del espacio */
         #pizarraContainer { 
             position: relative; 
             width: 100%; 
-            height: calc(100dvh - 65px); /* Resta exactamente el tamaño de la barra fija */
+            height: 85vh; /* Ocupa exactamente el 85% superior de la pantalla libre */
             background: #e2e8f0; 
             touch-action: none; 
         }
@@ -46,15 +34,13 @@
         }
         canvas:active { cursor: grabbing; }
         
-        /* Barra de control compactada para garantizar espacio en pantallas pequeñas */
         .controls { 
             display: flex; 
             gap: 6px; 
             background: #f8fafc; 
             width: 100%; 
-            height: 65px;
-            box-sizing: border-box; 
-            padding: 12px 8px; 
+            height: 15vh; /* Ocupa exactamente el 15% inferior de la pantalla libre */
+            padding: 10px; 
             border-top: 2px solid #e2e8f0; 
             justify-content: center; 
             align-items: center; 
@@ -62,7 +48,7 @@
             z-index: 10;
         }
         button { 
-            background: #1d70b8; color: #ffffff; border: none; padding: 8px 12px; 
+            background: #1d70b8; color: #ffffff; border: none; padding: 10px 14px; 
             font-weight: bold; border-radius: 20px; cursor: pointer; transition: all 0.2s; font-size: 13px;
         }
         button:hover { background: #15538a; }
@@ -74,16 +60,16 @@
         #btnClear:hover { background: #475569; }
         #status { font-style: italic; color: #64748b; font-size: 12px; font-weight: 500; margin-left: 2px; }
 
-        /* 💻 ENTORNO DE ESCRITORIO (Mantiene el campo al 50% centrado) */
+        /* 💻 ADAPTACIÓN PARA ORDENADORES Y PANTALLAS GRANDES (50% Centrado) */
         @media (min-width: 992px) and (orientation: landscape) {
-            body { background-color: #0f172a; justify-content: center; padding-top: 10px; }
+            body { background-color: #0f172a; justify-content: center; align-items: center; padding: 20px 0; }
             #pizarraContainer { 
-                width: 50vw; height: 76vh; border-radius: 12px;
-                border: 4px solid #334155; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5); margin-bottom: 10px;
+                width: 45vw; height: 70vh; border-radius: 12px;
+                border: 4px solid #334155; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
             }
             .controls {
-                width: 50vw; border-radius: 30px; border: 2px solid #334155;
-                height: 60px; background: #1e293b; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+                width: 45vw; height: 65px; border-radius: 30px; border: 2px solid #334155;
+                background: #1e293b; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3); margin-top: 15px;
             }
             #status { color: #94a3b8; }
         }
@@ -150,7 +136,7 @@
             if (!canvas.width || !canvas.height) return;
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // Suelo de madera parqué
+            // Suelo texturizado de madera parqué
             const w = canvas.width, h = canvas.height, bH = 16; 
             for (let y = 0; y < h; y += bH) {
                 ctx.fillStyle = (Math.floor(y / bH) % 2 === 0) ? '#f3d5ab' : '#ebd0a3';
@@ -159,7 +145,7 @@
                 ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
             }
 
-            // Marcas azules de fútbol sala
+            // Marcas azules fijas de futsal
             ctx.strokeStyle = '#1d70b8'; ctx.lineWidth = 4;
             const pX = 25, pY = 25, cw = w - (pX * 2), ch = h - (pY * 2);
             ctx.strokeRect(pX, pY, cw, ch); 
@@ -174,12 +160,12 @@
             ctx.beginPath(); ctx.arc(w / 2, pY, aRadius, 0, Math.PI); ctx.stroke(); 
             ctx.beginPath(); ctx.arc(w / 2, pY + ch, aRadius, Math.PI, 2 * Math.PI); ctx.stroke(); 
 
-            // Porterías
+            // Porterías rectangulares grises
             ctx.strokeStyle = '#64748b'; const gW = cw * 0.2;
             ctx.strokeRect(w / 2 - gW / 2, pY - 12, gW, 12);
             ctx.strokeRect(w / 2 - gW / 2, pY + ch, gW, 12);
 
-            // Dibujar líneas tácticas guardadas
+            // Dibujar las flechas tácticas rojas guardadas
             ctx.strokeStyle = '#ef4444'; ctx.lineWidth = 3.5;
             arrows.forEach(a => drawArrow(ctx, a.start.x * canvas.width, a.start.y * canvas.height, a.end.x * canvas.width, a.end.y * canvas.height));
             
@@ -188,7 +174,7 @@
                 drawArrow(ctx, arrowStart.x, arrowStart.y, arrowCurrent.x, arrowCurrent.y);
             }
 
-            // Pintar fichas con franjas verticales
+            // Pintar las camisetas con franjas
             players.forEach(p => {
                 ctx.save(); ctx.beginPath(); ctx.arc(p.px, p.py, p.radius, 0, 2 * Math.PI);
                 ctx.fillStyle = p.baseColor; ctx.fill();
@@ -296,7 +282,7 @@
                     const blob = new Blob(chunks, { type: 'video/webm' });
                     const url = URL.createObjectURL(blob);
                     const a = document.createElement('a'); a.href = url;
-                    a.download = `futsal_${new Date().toISOString().slice(0,10)}.webm`; a.click();
+                    a.download = `estrategia_${new Date().toISOString().slice(0,10)}.webm`; a.click();
                     statusText.innerText = "Listo"; btnStart.style.display = "inline-block"; btnStop.style.display = "none";
                 };
                 recorder.start(); statusText.innerText = "🎥 GRABANDO..."; statusText.style.color = "#ef4444";
