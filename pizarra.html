@@ -3,28 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Pizarra Futsal Pro - Ajuste Total</title>
+    <title>Pizarra Futsal Pro - Fix Total</title>
     <style>
-        /* Bloqueo total de cualquier desborde o margen fantasma */
         * { box-sizing: border-box; margin: 0; padding: 0; }
         
         body { 
             font-family: 'Segoe UI', Arial, sans-serif; 
             background-color: #f1f5f9; 
-            color: #1a202c; 
+            color: #ffffff; 
             display: flex; 
             flex-direction: column; 
             width: 100vw; 
             height: 100dvh; 
             overflow: hidden;
-            position: fixed; /* Evita que la pantalla rebote hacia arriba o abajo en iOS/Android */
+            position: fixed; 
         }
         
-        /* 📱 DISEÑO PARA MÓVIL: Reparto exacto del espacio */
+        /* Contenedor que ocupa el 85% de la pantalla vertical */
         #pizarraContainer { 
             position: relative; 
             width: 100%; 
-            height: 85vh; /* Ocupa exactamente el 85% superior de la pantalla libre */
+            height: 85vh; 
             background: #e2e8f0; 
             touch-action: none; 
         }
@@ -34,12 +33,13 @@
         }
         canvas:active { cursor: grabbing; }
         
+        /* Menú inferior que ocupa el 15% restante */
         .controls { 
             display: flex; 
             gap: 6px; 
             background: #f8fafc; 
             width: 100%; 
-            height: 15vh; /* Ocupa exactamente el 15% inferior de la pantalla libre */
+            height: 15vh; 
             padding: 10px; 
             border-top: 2px solid #e2e8f0; 
             justify-content: center; 
@@ -60,7 +60,7 @@
         #btnClear:hover { background: #475569; }
         #status { font-style: italic; color: #64748b; font-size: 12px; font-weight: 500; margin-left: 2px; }
 
-        /* 💻 ADAPTACIÓN PARA ORDENADORES Y PANTALLAS GRANDES (50% Centrado) */
+        /* 💻 ADAPTACIÓN AUTOMÁTICA AL 50% EN PC PANTALLA GRANDE */
         @media (min-width: 992px) and (orientation: landscape) {
             body { background-color: #0f172a; justify-content: center; align-items: center; padding: 20px 0; }
             #pizarraContainer { 
@@ -145,7 +145,7 @@
                 ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
             }
 
-            // Marcas azules fijas de futsal
+            // Marcas azules del campo
             ctx.strokeStyle = '#1d70b8'; ctx.lineWidth = 4;
             const pX = 25, pY = 25, cw = w - (pX * 2), ch = h - (pY * 2);
             ctx.strokeRect(pX, pY, cw, ch); 
@@ -160,12 +160,12 @@
             ctx.beginPath(); ctx.arc(w / 2, pY, aRadius, 0, Math.PI); ctx.stroke(); 
             ctx.beginPath(); ctx.arc(w / 2, pY + ch, aRadius, Math.PI, 2 * Math.PI); ctx.stroke(); 
 
-            // Porterías rectangulares grises
+            // Porterías rectangulares
             ctx.strokeStyle = '#64748b'; const gW = cw * 0.2;
             ctx.strokeRect(w / 2 - gW / 2, pY - 12, gW, 12);
             ctx.strokeRect(w / 2 - gW / 2, pY + ch, gW, 12);
 
-            // Dibujar las flechas tácticas rojas guardadas
+            // Dibujar las flechas rojas
             ctx.strokeStyle = '#ef4444'; ctx.lineWidth = 3.5;
             arrows.forEach(a => drawArrow(ctx, a.start.x * canvas.width, a.start.y * canvas.height, a.end.x * canvas.width, a.end.y * canvas.height));
             
@@ -174,7 +174,7 @@
                 drawArrow(ctx, arrowStart.x, arrowStart.y, arrowCurrent.x, arrowCurrent.y);
             }
 
-            // Pintar las camisetas con franjas
+            // Dibujar los jugadores
             players.forEach(p => {
                 ctx.save(); ctx.beginPath(); ctx.arc(p.px, p.py, p.radius, 0, 2 * Math.PI);
                 ctx.fillStyle = p.baseColor; ctx.fill();
@@ -202,10 +202,22 @@
             context.closePath(); context.fillStyle = context.strokeStyle; context.fill();
         }
 
+        // 📱 MEJORA: Sistema unificado que extrae las coordenadas táctiles reales del móvil de forma obligatoria
         function getPos(e) {
             const rect = canvas.getBoundingClientRect();
-            const clientX = e.touches ? e.touches.clientX : e.clientX;
-            const clientY = e.touches ? e.touches.clientY : e.clientY;
+            let clientX, clientY;
+            
+            if (e.touches && e.touches.length > 0) {
+                clientX = e.touches[0].clientX;
+                clientY = e.touches[0].clientY;
+            } else if (e.changedTouches && e.changedTouches.length > 0) {
+                clientX = e.changedTouches[0].clientX;
+                clientY = e.changedTouches[0].clientY;
+            } else {
+                clientX = e.clientX;
+                clientY = e.clientY;
+            }
+            
             return {
                 x: (clientX - rect.left) * (canvas.width / rect.width),
                 y: (clientY - rect.top) * (canvas.height / rect.height)
@@ -213,6 +225,9 @@
         }
 
         function down(e) {
+            // Evita que el navegador intente desplazar el fondo al tocar el lienzo
+            if (e.cancelable) e.preventDefault(); 
+            
             const pos = getPos(e); let hit = false;
             for (let i = players.length - 1; i >= 0; i--) {
                 if (Math.hypot(players[i].px - pos.x, players[i].py - pos.y) < players[i].radius) {
@@ -224,12 +239,14 @@
 
         function move(e) {
             if (!activePlayer && !arrowStart) return;
+            if (e.cancelable) e.preventDefault();
+            
             const pos = getPos(e);
             if (activePlayer) { activePlayer.px = pos.x; activePlayer.py = pos.y; drawBoard(); }
             else if (arrowStart) { arrowCurrent = pos; drawBoard(); }
         }
 
-        function up() {
+        function up(e) {
             if (arrowStart && arrowCurrent && Math.hypot(arrowCurrent.x - arrowStart.x, arrowCurrent.y - arrowStart.y) > 12) {
                 arrows.push({ 
                     start: { x: arrowStart.x / canvas.width, y: arrowStart.y / canvas.height }, 
@@ -245,13 +262,14 @@
             activePlayer = null; arrowStart = null; arrowCurrent = null; drawBoard();
         }
 
+        // Oyentes de pantalla específicos cruzados
         canvas.addEventListener('mousedown', down); canvas.addEventListener('mousemove', move); window.addEventListener('mouseup', up);
-        canvas.addEventListener('touchstart', down, { passive: true }); canvas.addEventListener('touchmove', move, { passive: true }); canvas.addEventListener('touchend', up);
+        canvas.addEventListener('touchstart', down, { passive: false }); canvas.addEventListener('touchmove', move, { passive: false }); canvas.addEventListener('touchend', up);
         
         window.addEventListener('resize', resizeCanvas);
-        window.addEventListener('load', () => { setTimeout(resizeCanvas, 100); });
+        window.addEventListener('load', () => { setTimeout(resizeCanvas, 150); });
 
-        // Evento Deshacer
+        // Botón Deshacer
         document.getElementById('btnUndo').addEventListener('click', () => {
             if (historyStack.length > 0) {
                 const previousState = historyStack.pop();
