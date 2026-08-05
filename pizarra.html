@@ -80,24 +80,24 @@
         const canvas = document.getElementById('tacticBoard');
         const ctx = canvas.getContext('2d');
 
-        // Definición de Jugadores y Balón
+         // Configuración inicial corregida de los jugadores y el balón
         let players = [
-            // Equipo Rojo (Defensa / Portero)
-            { id: 1, x: 500, y: 500, color: '#ff3333', number: '1', radius: 18, isDragging: false },
-            { id: 2, x: 500, y: 400, color: '#ff3333', number: '2', radius: 18, isDragging: false },
-            { id: 3, x: 350, y: 320, color: '#ff3333', number: '3', radius: 18, isDragging: false },
-            { id: 4, x: 650, y: 320, color: '#ff3333', number: '4', radius: 18, isDragging: false },
-            { id: 5, x: 500, y: 200, color: '#ff3333', number: '5', radius: 18, isDragging: false },
-            
-            // Equipo Amarillo (Ataque)
-            { id: 6, x: 580, y: 160, color: '#ffcc00', number: '1', radius: 18, isDragging: false, textColor: '#000' },
-            { id: 7, x: 350, y: 220, color: '#ffcc00', number: '2', radius: 18, isDragging: false, textColor: '#000' },
-            { id: 8, x: 500, y: 260, color: '#ffcc00', number: '3', radius: 18, isDragging: false, textColor: '#000' },
-            { id: 9, x: 620, y: 240, color: '#ffcc00', number: '4', radius: 18, isDragging: false, textColor: '#000' },
-            { id: 10, x: 450, y: 420, color: '#ffcc00', number: '5', radius: 18, isDragging: false, textColor: '#000' },
-            
-            // Balón Oficial (Blanco y Negro)
-            { id: 99, x: 500, y: 300, color: '#ffffff', number: '⚽', radius: 12, isDragging: false, textColor: '#000' }
+            // Equipo Rojo (Defiende Abajo, Ataca Arriba)
+            { id: 1, x: 500, y: 500, color: '#ff3333', number: '1', radius: 18, isDragging: false }, // Portero Rojo
+            { id: 2, x: 500, y: 400, color: '#ff3333', number: '2', radius: 18, isDragging: false }, // Cierre
+            { id: 3, x: 350, y: 320, color: '#ff3333', number: '3', radius: 18, isDragging: false }, // Ala Izquierdo
+            { id: 4, x: 650, y: 320, color: '#ff3333', number: '4', radius: 18, isDragging: false }, // Ala Derecho
+            { id: 5, x: 500, y: 220, color: '#ff3333', number: '5', radius: 18, isDragging: false }, // Pívot
+
+            // Equipo Amarillo (Defiende Arriba, Ataca Abajo)
+            { id: 6, x: 500, y: 80,  color: '#ffcc00', number: '1', radius: 18, isDragging: false, textColor: '#000' }, // Portero Amarillo (¡CORREGIDO EN PORTERÍA!)
+            { id: 7, x: 500, y: 160, color: '#ffcc00', number: '2', radius: 18, isDragging: false, textColor: '#000' }, // Cierre Amarillo
+            { id: 8, x: 380, y: 220, color: '#ffcc00', number: '3', radius: 18, isDragging: false, textColor: '#000' }, // Ala Izquierdo Amarillo
+            { id: 9, x: 620, y: 220, color: '#ffcc00', number: '4', radius: 18, isDragging: false, textColor: '#000' }, // Ala Derecho Amarillo
+            { id: 10,x: 500, y: 360, color: '#ffcc00', number: '5', radius: 18, isDragging: false, textColor: '#000' }, // Pívot Amarillo
+
+            // Balón Oficial (En el punto central)
+            { id: 99, x: 500, y: 290, color: '#ffffff', number: '⚽', radius: 12, isDragging: false, textColor: '#000' }
         ];
         let activePlayer = null;
         function drawBoard() {
