@@ -3,176 +3,123 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pizarra Táctica 3D - Fútbol Sala</title>
+    <title>Pizarra Futsal 3D</title>
     <style>
-        body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            margin: 0; 
-            padding: 20px; 
-            background-color: #121212; 
-            color: #ffffff; 
-        }
-        h1 { 
-            text-align: center; 
-            color: #00ff88;
-            margin-bottom: 5px;
-        }
-        p {
-            text-align: center;
-            color: #aaaaaa;
-            margin-top: 0;
-            margin-bottom: 25px;
-        }
-        .container { 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            gap: 20px; 
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        .controls { 
-            display: flex; 
-            gap: 15px; 
-            background: #1e1e1e; 
-            padding: 15px 25px; 
-            border-radius: 30px; 
-            border: 1px solid #333;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-        }
-        button { 
-            background: #00ff88; 
-            color: #000000; 
-            border: none; 
-            padding: 12px 24px; 
-            font-weight: bold; 
-            border-radius: 20px; 
-            cursor: pointer; 
-            transition: all 0.2s ease;
-        }
-        button:hover { 
-            background: #00cc6e; 
-            transform: scale(1.05);
-        }
-        #btnStop { 
-            background: #ff4444; 
-            color: white; 
-            display: none; 
-        }
-        #btnStop:hover { 
-            background: #cc3333; 
-        }
-        .status-container {
-            display: flex;
-            align-items: center;
-            font-size: 14px;
-            color: #00ff88;
-        }
-
-        /* 🟢 RECORTE PERFECTO PARA LA VISTA 3D */
-        .pizarra-wrapper {
-            width: 100%;
-            max-width: 1020px; /* Ajustado al ancho del lienzo de juego */
-            height: 640px;     /* Oculta los anuncios inferiores */
-            overflow: hidden;  
-            position: relative;
-            border: 2px solid #333;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.7);
-        }
-
-        /* Desplazamiento milimétrico para purgar la publicidad superior */
-        .pizarra-wrapper iframe {
-            position: absolute;
-            top: -95px;       
-            left: 0;
-            width: 100%;
-            height: 790px;     
-            border: none;
-        }
+        body { font-family: sans-serif; margin: 0; padding: 20px; background: #121212; color: #fff; display: flex; flex-direction: column; align-items: center; }
+        h1 { color: #00ff88; margin: 0 0 5px 0; }
+        p { color: #aaa; margin: 0 0 20px 0; }
+        .controls { display: flex; gap: 15px; background: #1e1e1e; padding: 12px 25px; border-radius: 30px; border: 1px solid #333; margin-bottom: 20px; }
+        button { background: #00ff88; color: #000; border: none; padding: 10px 20px; font-weight: bold; border-radius: 20px; cursor: pointer; }
+        button:hover { background: #00cc6e; }
+        #btnStop { background: #ff4444; color: #fff; display: none; }
+        #status { align-self: center; font-style: italic; color: #aaa; font-size: 14px; }
+        #container { position: relative; width: 900px; height: 550px; background: #5d634f; border-radius: 12px; border: 3px solid #333; overflow: hidden; }
+        canvas { position: absolute; top: 0; left: 0; cursor: grab; }
+        canvas:active { cursor: grabbing; }
     </style>
 </head>
 <body>
-
     <h1>Pizarra de Fútbol Sala 3D</h1>
-    <p>Sesión táctica interactiva en perspectiva sin publicidad externa</p>
-    
-    <div class="container">
-        <!-- Panel de Control para Grabar la Sesión -->
-        <div class="controls">
-            <button id="btnStart">🔴 Iniciar Grabación de Táctica</button>
-            <button id="btnStop">⏹️ Detener y Descargar Video</button>
-            <div class="status-container">
-                <span id="status" style="font-style: italic; color: #aaa;">Listo para explicar</span>
-            </div>
-        </div>
-
-        <!-- Contenedor con la URL corregida para Fútbol Sala en Perspectiva 3D -->
-        <div class="pizarra-wrapper">
-            <iframe src="https://tactical-board.com"></iframe>
-        </div>
+    <p>Mueve las fichas numéricas sobre la cancha azul reglamentaria en perspectiva</p>
+    <div class="controls">
+        <button id="btnStart">🔴 Iniciar Grabación</button>
+        <button id="btnStop">⏹️ Detener y Descargar</button>
+        <span id="status">Listo para entrenar</span>
     </div>
-
+    <div id="container">
+        <canvas id="tacticBoard" width="900" height="550"></canvas>
+    </div>
     <script>
-        let mediaRecorder;
-        let recordedChunks = [];
+        const canvas = document.getElementById('tacticBoard');
+        const ctx = canvas.getContext('2d');
+        let players = [
+            { id: 1, x: 450, y: 440, color: '#ff3333', number: '1', radius: 16 },
+            { id: 2, x: 450, y: 360, color: '#ff3333', number: '2', radius: 16 },
+            { id: 3, x: 320, y: 280, color: '#ff3333', number: '3', radius: 16 },
+            { id: 4, x: 580, y: 280, color: '#ff3333', number: '4', radius: 16 },
+            { id: 5, x: 450, y: 160, color: '#ff3333', number: '5', radius: 16 },
+            { id: 6, x: 530, y: 140, color: '#ffcc00', number: '1', radius: 16, tColor: '#000' },
+            { id: 7, x: 320, y: 200, color: '#ffcc00', number: '2', radius: 16, tColor: '#000' },
+            { id: 8, x: 450, y: 230, color: '#ffcc00', number: '3', radius: 16, tColor: '#000' },
+            { id: 9, x: 550, y: 210, color: '#ffcc00', number: '4', radius: 16, tColor: '#000' },
+            { id: 10, x: 410, y: 380, color: '#ffcc00', number: '5', radius: 16, tColor: '#000' }
+        ];
+        let dragPlayer = null;
 
-        const btnStart = document.getElementById('btnStart');
-        const btnStop = document.getElementById('btnStop');
-        const statusText = document.getElementById('status');
+        function drawBoard() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#1d70b8';
+            ctx.beginPath();
+            ctx.moveTo(250, 60); ctx.lineTo(650, 60); ctx.lineTo(820, 500); ctx.lineTo(80, 500);
+            ctx.closePath(); ctx.fill();
+            ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 3; ctx.stroke();
+            ctx.beginPath(); ctx.moveTo(165, 280); ctx.lineTo(735, 280); ctx.stroke();
+            ctx.beginPath(); ctx.ellipse(450, 280, 70, 25, 0, 0, 2 * Math.PI); ctx.stroke();
+            ctx.beginPath(); ctx.ellipse(450, 60, 110, 45, 0, 0, Math.PI); ctx.stroke();
+            ctx.beginPath(); ctx.ellipse(450, 500, 140, 55, 0, Math.PI, 2 * Math.PI); ctx.stroke();
+            ctx.lineWidth = 4; ctx.strokeRect(415, 35, 70, 25); ctx.strokeRect(405, 500, 90, 35);
+            players.forEach(p => {
+                ctx.beginPath(); ctx.arc(p.x, p.y, p.radius, 0, 2 * Math.PI);
+                ctx.fillStyle = p.color; ctx.fill();
+                ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 2; ctx.stroke();
+                ctx.fillStyle = p.tColor || '#ffffff'; ctx.font = 'bold 14px Arial';
+                ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+                ctx.fillText(p.number, p.x, p.y);
+            });
+        }
+
+        function getPos(e) {
+            const rect = canvas.getBoundingClientRect();
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            return { x: clientX - rect.left, y: clientY - rect.top };
+        }
+
+        function down(e) {
+            const pos = getPos(e);
+            players.forEach(p => {
+                if (Math.hypot(p.x - pos.x, p.y - pos.y) < p.radius) dragPlayer = p;
+            });
+        }
+
+        function move(e) {
+            if (dragPlayer) {
+                const pos = getPos(e);
+                dragPlayer.x = pos.x; dragPlayer.y = pos.y;
+                drawBoard();
+            }
+        }
+
+        function up() { dragPlayer = null; }
+
+        canvas.addEventListener('mousedown', down); canvas.addEventListener('mousemove', move); window.addEventListener('mouseup', up);
+        canvas.addEventListener('touchstart', down, { passive: true }); canvas.addEventListener('touchmove', move, { passive: true }); canvas.addEventListener('touchend', up);
+        drawBoard();
+
+        let recorder, chunks = [];
+        const btnStart = document.getElementById('btnStart'), btnStop = document.getElementById('btnStop'), status = document.getElementById('status');
 
         btnStart.addEventListener('click', async () => {
-            recordedChunks = [];
+            chunks = [];
             try {
-                const stream = await navigator.mediaDevices.getDisplayMedia({
-                    video: { mediaSource: "screen" },
-                    audio: true 
-                });
-
-                mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm;codecs=vp9' });
-                
-                mediaRecorder.ondataavailable = (e) => {
-                    if (e.data.size > 0) recordedChunks.push(e.data);
-                };
-
-                mediaRecorder.onstop = () => {
-                    const blob = new Blob(recordedChunks, { type: 'video/webm' });
+                const stream = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: true });
+                recorder = new MediaRecorder(stream, { mimeType: 'video/webm;codecs=vp9' });
+                recorder.ondataavailable = (e) => { if (e.data.size > 0) chunks.push(e.data); };
+                recorder.onstop = () => {
+                    const blob = new Blob(chunks, { type: 'video/webm' });
                     const url = URL.createObjectURL(blob);
-                    
                     const a = document.createElement('a');
-                    a.href = url;
-                    a.download = `tactica_futsal_3d_${new Date().toISOString().slice(0,10)}.webm`;
-                    a.click();
-                    
-                    statusText.innerText = "Grabación descargada.";
-                    statusText.style.color = "#aaa";
-                    btnStart.style.display = "inline-block";
-                    btnStop.style.display = "none";
+                    a.href = url; a.download = `futsal_3d_${new Date().toISOString().slice(0,10)}.webm`; a.click();
+                    status.innerText = "Descargada."; status.style.color = "#aaa";
+                    btnStart.style.display = "inline-block"; btnStop.style.display = "none";
                 };
-
-                mediaRecorder.start();
-                statusText.innerText = "🎥 GRABANDO LA PIZARRA...";
-                statusText.style.color = "#ff4444";
-                btnStart.style.display = "none";
-                btnStop.style.display = "inline-block";
-
-                stream.getVideoTracks().onended = () => {
-                    if (mediaRecorder.state !== "inactive") {
-                        mediaRecorder.stop();
-                    }
-                };
-
-            } catch (err) {
-                console.error("Error al acceder a la grabación: ", err);
-                statusText.innerText = "Grabación cancelada.";
-                statusText.style.color = "#ff4444";
-            }
+                recorder.start();
+                status.innerText = "🎥 GRABANDO..."; status.style.color = "#ff4444";
+                btnStart.style.display = "none"; btnStop.style.display = "inline-block";
+                stream.getVideoTracks()[0].onended = () => { if (recorder.state !== "inactive") recorder.stop(); };
+            } catch (err) { status.innerText = "Cancelada."; }
         });
-
-        btnStop.addEventListener('click', () => {
-            mediaRecorder.stop();
-            mediaRecorder.stream.getTracks().forEach(track => track.stop());
-        });
+        btnStop.addEventListener('click', () => { recorder.stop(); recorder.stream.getTracks().forEach(t => t.stop()); });
     </script>
 </body>
 </html>
