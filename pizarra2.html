@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Pizarra Futsal Profesional - Parqué</title>
+    <title>Pizarra Futsal Adaptable</title>
     <style>
         body { 
             font-family: 'Segoe UI', Arial, sans-serif; 
             margin: 0; 
             padding: 0; 
-            background-color: #ffffff; 
+            background-color: #f1f5f9; 
             color: #1a202c; 
             display: flex; 
             flex-direction: column; 
@@ -19,7 +19,7 @@
             overflow: hidden;
         }
         
-        /* Contenedor vertical que ocupa toda la pantalla menos el menú inferior */
+        /* 📱 DISEÑO POR DEFECTO (Para Móvil - Pantalla Completa) */
         #pizarraContainer { 
             position: relative; 
             width: 100%; 
@@ -38,7 +38,6 @@
         }
         canvas:active { cursor: grabbing; }
         
-        /* Panel de botones inferior */
         .controls { 
             display: flex; 
             gap: 12px; 
@@ -70,16 +69,40 @@
         #btnClear { background: #64748b; color: #fff; }
         #btnClear:hover { background: #475569; }
         #status { font-style: italic; color: #64748b; font-size: 13px; font-weight: 500; margin-left: 5px; }
+
+        /* 💻 ADAPTACIÓN AUTOMÁTICA PARA PANTALLAS DE ORDENADOR (Reducción al 50%) */
+        @media (min-width: 992px) and (orientation: landscape) {
+            body {
+                background-color: #0f172a; 
+                justify-content: center;
+                padding-top: 15px;
+            }
+            #pizarraContainer { 
+                width: 50vw;          
+                height: 78vh;         
+                border-radius: 12px;
+                border: 4px solid #334155;
+                box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+                margin-bottom: 15px;
+            }
+            .controls {
+                width: 50vw;          
+                border-radius: 30px;
+                border: 2px solid #334155;
+                height: 65px;
+                background: #1e293b;
+                box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+            }
+            #status { color: #94a3b8; }
+        }
     </style>
 </head>
 <body>
 
-    <!-- El Campo Táctico Vertical -->
     <div id="pizarraContainer">
         <canvas id="tacticBoard"></canvas>
     </div>
 
-    <!-- Menú de Grabación y Limpieza abajo -->
     <div class="controls">
         <button id="btnStart">🔴 Grabar</button>
         <button id="btnStop">⏹️ Detener</button>
@@ -95,9 +118,14 @@
             const container = document.getElementById('pizarraContainer');
             canvas.width = container.clientWidth;
             canvas.height = container.clientHeight;
+            if (initialized) {
+                players.forEach(p => {
+                    p.px = p.x * canvas.width;
+                    p.py = p.y * canvas.height;
+                });
+            }
             drawBoard();
         }
-        // Configuración y equipaciones personalizadas
         let players = [
             // Equipo Azul con raya Amarilla (El 1 Blanco con raya Morada)
             { id: 1, x: 0.5, y: 0.92, type: 'stripe', baseColor: '#ffffff', stripeColor: '#8b5cf6', number: '1', radius: 18, tColor: '#000' }, 
@@ -113,7 +141,7 @@
             { id: 9, x: 0.75, y: 0.35, type: 'solid', baseColor: '#eab308', number: '4', radius: 18, tColor: '#000' },
             { id: 10,x: 0.5, y: 0.44, type: 'solid', baseColor: '#eab308', number: '5', radius: 18, tColor: '#000' },
             
-            // Balón Oficial
+            // Balón
             { id: 99, x: 0.5, y: 0.5, type: 'ball', baseColor: '#ffffff', number: '⚽', radius: 12, tColor: '#000' }
         ];
 
@@ -128,6 +156,13 @@
             }
         }
 
+        function updatePlayerPercentages() {
+            players.forEach(p => {
+                p.x = p.px / canvas.width;
+                p.y = p.py / canvas.height;
+            });
+        }
+
         let activePlayer = null, arrowStart = null, arrowCurrent = null, arrows = [];
 
         function drawBoard() {
@@ -135,7 +170,7 @@
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             initPlayers();
 
-            // Dibujo del suelo texturizado de madera parqué
+            // Renderizado del suelo de madera del pabellón
             const w = canvas.width, h = canvas.height, bH = 16; 
             for (let y = 0; y < h; y += bH) {
                 ctx.fillStyle = (Math.floor(y / bH) % 2 === 0) ? '#f3d5ab' : '#ebd0a3';
@@ -144,41 +179,41 @@
                 ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
             }
 
-            // Líneas reglamentarias rectas (Azul Futsal Oficial)
+            // Marcas azules futsal oficiales
             ctx.strokeStyle = '#1d70b8'; ctx.lineWidth = 4;
             const pX = 25, pY = 25, cw = w - (pX * 2), ch = h - (pY * 2);
-            ctx.strokeRect(pX, pY, cw, ch); // Perímetro
+            ctx.strokeRect(pX, pY, cw, ch); 
 
             const midY = pY + ch / 2;
-            ctx.beginPath(); ctx.moveTo(pX, midY); ctx.lineTo(pX + cw, midY); ctx.stroke(); // Medio campo
+            ctx.beginPath(); ctx.moveTo(pX, midY); ctx.lineTo(pX + cw, midY); ctx.stroke(); 
 
             const rCenter = Math.min(cw, ch) * 0.12;
-            ctx.beginPath(); ctx.arc(w / 2, midY, rCenter, 0, 2 * Math.PI); ctx.stroke(); // Círculo central
+            ctx.beginPath(); ctx.arc(w / 2, midY, rCenter, 0, 2 * Math.PI); ctx.stroke(); 
 
             const aRadius = Math.min(cw, ch) * 0.18;
-            ctx.beginPath(); ctx.arc(w / 2, pY, aRadius, 0, Math.PI); ctx.stroke(); // Área Superior
-            ctx.beginPath(); ctx.arc(w / 2, pY + ch, aRadius, Math.PI, 2 * Math.PI); ctx.stroke(); // Área Inferior
+            ctx.beginPath(); ctx.arc(w / 2, pY, aRadius, 0, Math.PI); ctx.stroke(); 
+            ctx.beginPath(); ctx.arc(w / 2, pY + ch, aRadius, Math.PI, 2 * Math.PI); ctx.stroke(); 
 
-            // Porterías rectangulares grises
+            // Porterías
             ctx.strokeStyle = '#64748b'; const gW = cw * 0.2;
             ctx.strokeRect(w / 2 - gW / 2, pY - 12, gW, 12);
             ctx.strokeRect(w / 2 - gW / 2, pY + ch, gW, 12);
 
-            // Renderizado de flechas tácticas rojas
+            // Dibujar líneas tácticas de trayectorias
             ctx.strokeStyle = '#ef4444'; ctx.lineWidth = 3.5;
-            arrows.forEach(a => drawArrow(ctx, a.start.x, a.start.y, a.end.x, a.end.y));
+            arrows.forEach(a => drawArrow(ctx, a.start.px, a.start.py, a.end.px, a.end.py));
             if (arrowStart && arrowCurrent) {
                 ctx.strokeStyle = '#64748b'; drawArrow(ctx, arrowStart.x, arrowStart.y, arrowCurrent.x, arrowCurrent.y);
             }
 
-            // Dibujo detallado de los jugadores
+            // Pintar las camisetas con franjas
             players.forEach(p => {
                 ctx.save(); ctx.beginPath(); ctx.arc(p.px, p.py, p.radius, 0, 2 * Math.PI);
                 ctx.fillStyle = p.baseColor; ctx.fill();
 
                 if (p.type === 'stripe') {
                     ctx.clip(); ctx.fillStyle = p.stripeColor;
-                    ctx.fillRect(p.px - 4, p.py - p.radius, 8, p.radius * 2); // Raya vertical
+                    ctx.fillRect(p.px - 4, p.py - p.radius, 8, p.radius * 2);
                 }
                 ctx.restore();
 
@@ -224,8 +259,13 @@
 
         function up() {
             if (arrowStart && arrowCurrent && Math.hypot(arrowCurrent.x - arrowStart.x, arrowCurrent.y - arrowStart.y) > 12) {
-                arrows.push({ start: arrowStart, end: arrowCurrent });
+                // Guardar la flecha guardando coordenadas absolutas escaladas
+                arrows.push({ 
+                    start: { px: arrowStart.x, py: arrowStart.y }, 
+                    end: { px: arrowCurrent.x, py: arrowCurrent.y } 
+                });
             }
+            if (activePlayer) { updatePlayerPercentages(); }
             activePlayer = null; arrowStart = null; arrowCurrent = null; drawBoard();
         }
 
@@ -239,7 +279,7 @@
             arrows = []; drawBoard();
         });
 
-        // Módulo de Grabación de Video
+        // Capturador de Video
         let recorder, chunks = [];
         const btnStart = document.getElementById('btnStart'), btnStop = document.getElementById('btnStop'), statusText = document.getElementById('status');
 
@@ -253,7 +293,7 @@
                     const blob = new Blob(chunks, { type: 'video/webm' });
                     const url = URL.createObjectURL(blob);
                     const a = document.createElement('a'); a.href = url;
-                    a.download = `futsal_pabellon_${new Date().toISOString().slice(0,10)}.webm`; a.click();
+                    a.download = `estrategia_futsal_${new Date().toISOString().slice(0,10)}.webm`; a.click();
                     statusText.innerText = "Listo"; btnStart.style.display = "inline-block"; btnStop.style.display = "none";
                 };
                 recorder.start(); statusText.innerText = "🎥 GRABANDO..."; statusText.style.color = "#ef4444";
