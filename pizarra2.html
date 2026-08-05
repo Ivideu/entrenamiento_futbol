@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>Pizarra Futsal 3D</title>
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; margin: 0; padding: 10px; background-color: #ffffff; color: #1a202c; display: flex; flex-direction: column; align-items: center; min-height: 100vh; justify-content: space-between; }
+        
+        /* 1. La cancha de juego se muestra arriba del todo */
+        #pizarraContainer { position: relative; width: 100%; max-width: 900px; height: 520px; background: #e2e8f0; border-radius: 12px; border: 3px solid #cbd5e1; box-shadow: 0 4px 20px rgba(0,0,0,0.08); overflow: hidden; touch-action: none; margin-bottom: 15px; }
+        canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; cursor: grab; touch-action: none; }
+        canvas:active { cursor: grabbing; }
+        
+        /* 2. El panel de control se desplaza a la parte inferior */
+        .controls { display: flex; gap: 15px; background: #f8fafc; padding: 10px 20px; border-radius: 30px; border: 2px solid #e2e8f0; margin-bottom: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        button { background: #1d70b8; color: #ffffff; border: none; padding: 10px 20px; font-weight: bold; border-radius: 20px; cursor: pointer; transition: all 0.2s; }
+        button:hover { background: #15538a; transform: scale(1.02); }
+        #btnStop { background: #ef4444; display: none; }
+        #btnStop:hover { background: #dc2626; }
+        #status { align-self: center; font-style: italic; color: #64748b; font-size: 13px; font-weight: 500; }
+    </style>
+</head>
+<body>
+
+    <!-- Lo primero que carga: El Campo Táctico -->
+    <div id="pizarraContainer">
+        <canvas id="tacticBoard" width="900" height="520"></canvas>
+    </div>
+
+    <!-- Menú de Grabación ubicado abajo -->
+    <div class="controls">
+        <button id="btnStart">🔴 Grabar Sesión</button>
+        <button id="btnStop">⏹️ Detener y Descargar</button>
+        <span id="status">Listo para entrenar</span>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('tacticBoard');
+        const ctx = canvas.getContext('2d');
+
+        // Configuración de fichas con los dos porteros en sus metas
+        let players = [
+            // Equipo Rojo (Defiende Abajo, Ataca Arriba)
+            { id: 1, x: 450, y: 475, color: '#ef4444', number: '1', radius: 18 },
+            { id: 2, x: 450, y: 380, color: '#ef4444', number: '2', radius: 18 },
+            { id: 3, x: 300, y: 300, color: '#ef4444', number: '3', radius: 18 },
+            { id: 4, x: 600, y: 300, color: '#ef4444', number: '4', radius: 18 },
+            { id: 5, x: 450, y: 200, color: '#ef4444', number: '5', radius: 18 },
+            // Equipo Amarillo (Defiende Arriba, Ataca Abajo)
+            { id: 6, x: 450, y: 45,  color: '#eab308', number: '1', radius: 18, tColor: '#000' },
+            { id: 7, x: 450, y: 140, color: '#eab308', number: '2', radius: 18, tColor: '#000' },
+            { id: 8, x: 320, y: 220, color: '#eab308', number: '3', radius: 18, tColor: '#000' },
+            { id: 9, x: 580, y: 220, color: '#eab308', number: '4', radius: 18, tColor: '#000' },
+            { id: 10,x: 450, y: 330, color: '#eab308', number: '5', radius: 18, tColor: '#000' },
+            // Balón en el centro
+            { id: 99, x: 450, y: 260, color: '#ffffff', number: '⚽', radius: 12, tColor: '#000' }
+        ];
+
+        let activePlayer = null, arrowStart = null, arrowCurrent = null, arrows = [];
+
+        function drawBoard() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Terreno Azul en perspectiva con estética blanca/azul clara
+            ctx.fillStyle = '#1d70b8';
+            ctx.beginPath();
+            ctx.moveTo(250, 20); ctx.lineTo(650, 20); ctx.lineTo(840, 500); ctx.lineTo(60, 500);
+            ctx.closePath(); ctx.fill();
+            
+            ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 4; ctx.stroke();
+
+            // Líneas de marcas reglamentarias del campo
+            ctx.beginPath(); ctx.moveTo(155, 260); ctx.lineTo(745, 260); ctx.stroke();
+            ctx.beginPath(); ctx.ellipse(450, 260, 75, 25, 0, 0, 2 * Math.PI); ctx.stroke();
+            ctx.beginPath(); ctx.ellipse(450, 20, 120, 45, 0, 0, Math.PI); ctx.stroke();
+            ctx.beginPath(); ctx.ellipse(450, 500, 150, 55, 0, Math.PI, 2 * Math.PI); ctx.stroke();
+
+            // Porterías blancas en relieve
+            ctx.lineWidth = 4; ctx.strokeStyle = '#64748b';
+            ctx.strokeRect(410, -5, 80, 25); ctx.strokeRect(400, 500, 100, 30);
+
+            // Dibujar las flechas tácticas añadidas
+            ctx.strokeStyle = '#00ff88'; ctx.lineWidth = 3.5;
+            arrows.forEach(a => drawArrow(ctx, a.start.x, a.start.y, a.end.x, a.end.y));
+            if (arrowStart && arrowCurrent) {
+                ctx.strokeStyle = '#cbd5e1';
+                drawArrow(ctx, arrowStart.x, arrowStart.y, arrowCurrent.x, arrowCurrent.y);
+            }
+
+            // Pintar las Fichas
+            players.forEach(p => {
+                ctx.beginPath(); ctx.arc(p.x, p.y, p.radius, 0, 2 * Math.PI);
+                ctx.fillStyle = p.color; ctx.fill();
+                ctx.strokeStyle = '#ffffff'; ctx.lineWidth = 2.5; ctx.stroke();
+                ctx.fillStyle = p.tColor || '#ffffff'; ctx.font = 'bold 15px Arial';
+                ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+                ctx.fillText(p.number, p.x, p.y);
+            });
+        }
+
+        function drawArrow(context, fx, fy, tx, ty) {
+            const len = 12; const dx = tx - fx; const dy = ty - fy; const angle = Math.atan2(dy, dx);
+            context.beginPath(); context.moveTo(fx, fy); context.lineTo(tx, ty); context.stroke();
+            context.beginPath(); context.moveTo(tx, ty);
+            context.lineTo(tx - len * Math.cos(angle - Math.PI / 6), ty - len * Math.sin(angle - Math.PI / 6));
+            context.lineTo(tx - len * Math.cos(angle + Math.PI / 6), ty - len * Math.sin(angle + Math.PI / 6));
+            context.closePath(); context.fillStyle = context.strokeStyle; context.fill();
+        }
+
+        function getPos(e) {
+            const rect = canvas.getBoundingClientRect();
+            const cx = e.touches ? e.touches[0].clientX : e.clientX;
+            const cy = e.touches ? e.touches[0].clientY : e.clientY;
+            return { x: (cx - rect.left) * (canvas.width / rect.width), y: (cy - rect.top) * (canvas.height / rect.height) };
+        }
+
+        function down(e) {
+            const pos = getPos(e); let hit = false;
+            for (let i = players.length - 1; i >= 0; i--) {
+                if (Math.hypot(players[i].x - pos.x, players[i].y - pos.y) < players[i].radius) {
+                    activePlayer = players[i]; hit = true; break;
+                }
+            }
+            if (!hit) { arrowStart = pos; arrowCurrent = pos; }
+        }
+
+        function move(e) {
+            const pos = getPos(e);
+            if (activePlayer) { activePlayer.x = pos.x; activePlayer.y = pos.y; drawBoard(); }
+            else if (arrowStart) { arrowCurrent = pos; drawBoard(); }
+        }
+
+        function up() {
+            if (arrowStart && arrowCurrent && Math.hypot(arrowCurrent.x - arrowStart.x, arrowCurrent.y - arrowStart.y) > 12) {
+                arrows.push({ start: arrowStart, end: arrowCurrent });
+            }
+            activePlayer = null; arrowStart = null; arrowCurrent = null; drawBoard();
+        }
+
+        canvas.addEventListener('mousedown', down); canvas.addEventListener('mousemove', move); window.addEventListener('mouseup', up);
+        canvas.addEventListener('touchstart', down, { passive: true }); canvas.addEventListener('touchmove', move, { passive: true }); canvas.addEventListener('touchend', up);
+        
+        drawBoard();
+
+        // Grabación nativa de pantalla
+        let recorder, chunks = [];
+        const btnStart = document.getElementById('btnStart'), btnStop = document.getElementById('btnStop'), statusText = document.getElementById('status');
+
+        btnStart.addEventListener('click', async () => {
+            chunks = [];
+            try {
+                const stream = await navigator.mediaDevices.getDisplayMedia({ video: true, audio: true });
+                recorder = new MediaRecorder(stream, { mimeType: 'video/webm;codecs=vp9' });
+                recorder.ondataavailable = (e) => { if (e.data.size > 0) chunks.push(e.data); };
+                recorder.onstop = () => {
+                    const blob = new Blob(chunks, { type: 'video/webm' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a'); a.href = url;
+                    a.download = `táctica_futsal_${new Date().toISOString().slice(0,10)}.webm`; a.click();
+                    statusText.innerText = "Descargado."; btnStart.style.display = "inline-block"; btnStop.style.display = "none";
+                };
+                recorder.start(); statusText.innerText = "🎥 GRABANDO..."; statusText.style.color = "#ef4444";
+                btnStart.style.display = "none"; btnStop.style.display = "inline-block";
+            } catch (err) { statusText.innerText = "Cancelado."; }
+        });
+        btnStop.addEventListener('click', () => { recorder.stop(); recorder.stream.getTracks().forEach(t => t.stop()); });
+    </script>
+</body>
+</html>
