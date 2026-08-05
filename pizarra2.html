@@ -3,65 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Pizarra Futsal Adaptable</title>
+    <title>Pizarra Futsal Móvil y PC</title>
     <style>
         body { 
-            font-family: 'Segoe UI', Arial, sans-serif; 
-            margin: 0; 
-            padding: 0; 
-            background-color: #f1f5f9; 
-            color: #1a202c; 
-            display: flex; 
-            flex-direction: column; 
-            align-items: center; 
-            width: 100vw;
-            height: 100vh;
-            overflow: hidden;
+            font-family: 'Segoe UI', Arial, sans-serif; margin: 0; padding: 0; 
+            background-color: #f1f5f9; color: #1a202c; 
+            display: flex; flex-direction: column; align-items: center; 
+            width: 100vw; height: 100vh; overflow: hidden;
         }
         
-        /* 📱 DISEÑO POR DEFECTO (Para Móvil - Pantalla Completa) */
+        /* 📱 DISEÑO POR DEFECTO (Móvil) */
         #pizarraContainer { 
-            position: relative; 
-            width: 100%; 
-            height: calc(100vh - 70px); 
-            background: #e2e8f0; 
-            touch-action: none; 
+            position: relative; width: 100%; height: calc(100vh - 70px); 
+            background: #e2e8f0; touch-action: none; 
         }
         canvas { 
-            position: absolute; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 100%; 
-            cursor: grab; 
-            touch-action: none; 
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+            cursor: grab; touch-action: none; 
         }
         canvas:active { cursor: grabbing; }
         
         .controls { 
-            display: flex; 
-            gap: 12px; 
-            background: #f8fafc; 
-            width: 100%;
-            height: 70px;
-            box-sizing: border-box;
-            padding: 15px 20px; 
-            border-top: 2px solid #e2e8f0; 
-            justify-content: center;
-            align-items: center;
-            box-shadow: 0 -4px 10px rgba(0,0,0,0.05); 
-            z-index: 10;
+            display: flex; gap: 12px; background: #f8fafc; width: 100%; height: 70px;
+            box-sizing: border-box; padding: 15px 20px; border-top: 2px solid #e2e8f0; 
+            justify-content: center; align-items: center; box-shadow: 0 -4px 10px rgba(0,0,0,0.05); z-index: 10;
         }
         button { 
-            background: #1d70b8; 
-            color: #ffffff; 
-            border: none; 
-            padding: 10px 16px; 
-            font-weight: bold; 
-            border-radius: 20px; 
-            cursor: pointer; 
-            transition: all 0.2s; 
-            font-size: 14px;
+            background: #1d70b8; color: #ffffff; border: none; padding: 10px 16px; 
+            font-weight: bold; border-radius: 20px; cursor: pointer; transition: all 0.2s; font-size: 14px;
         }
         button:hover { background: #15538a; }
         #btnStop { background: #ef4444; display: none; }
@@ -70,28 +39,16 @@
         #btnClear:hover { background: #475569; }
         #status { font-style: italic; color: #64748b; font-size: 13px; font-weight: 500; margin-left: 5px; }
 
-        /* 💻 ADAPTACIÓN AUTOMÁTICA PARA PANTALLAS DE ORDENADOR (Reducción al 50%) */
+        /* 💻 ADAPTACIÓN AUTOMÁTICA PARA PC (Al 50%) */
         @media (min-width: 992px) and (orientation: landscape) {
-            body {
-                background-color: #0f172a; 
-                justify-content: center;
-                padding-top: 15px;
-            }
+            body { background-color: #0f172a; justify-content: center; padding-top: 15px; }
             #pizarraContainer { 
-                width: 50vw;          
-                height: 78vh;         
-                border-radius: 12px;
-                border: 4px solid #334155;
-                box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
-                margin-bottom: 15px;
+                width: 50vw; height: 78vh; border-radius: 12px;
+                border: 4px solid #334155; box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5); margin-bottom: 15px;
             }
             .controls {
-                width: 50vw;          
-                border-radius: 30px;
-                border: 2px solid #334155;
-                height: 65px;
-                background: #1e293b;
-                box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
+                width: 50vw; border-radius: 30px; border: 2px solid #334155;
+                height: 65px; background: #1e293b; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.3);
             }
             #status { color: #94a3b8; }
         }
@@ -113,64 +70,44 @@
     <script>
         const canvas = document.getElementById('tacticBoard');
         const ctx = canvas.getContext('2d');
-
-        function resizeCanvas() {
-            const container = document.getElementById('pizarraContainer');
-            canvas.width = container.clientWidth;
-            canvas.height = container.clientHeight;
-            if (initialized) {
-                players.forEach(p => {
-                    p.px = p.x * canvas.width;
-                    p.py = p.y * canvas.height;
-                });
-            }
-            drawBoard();
-        }
+        // Base de datos de jugadores con sus coordenadas porcentuales fijas
         let players = [
-            // Equipo Azul con raya Amarilla (El 1 Blanco con raya Morada)
             { id: 1, x: 0.5, y: 0.92, type: 'stripe', baseColor: '#ffffff', stripeColor: '#8b5cf6', number: '1', radius: 18, tColor: '#000' }, 
             { id: 2, x: 0.5, y: 0.78, type: 'stripe', baseColor: '#1d70b8', stripeColor: '#eab308', number: '2', radius: 18, tColor: '#fff' },
             { id: 3, x: 0.25, y: 0.65, type: 'stripe', baseColor: '#1d70b8', stripeColor: '#eab308', number: '3', radius: 18, tColor: '#fff' },
             { id: 4, x: 0.75, y: 0.65, type: 'stripe', baseColor: '#1d70b8', stripeColor: '#eab308', number: '4', radius: 18, tColor: '#fff' },
             { id: 5, x: 0.5, y: 0.56, type: 'stripe', baseColor: '#1d70b8', stripeColor: '#eab308', number: '5', radius: 18, tColor: '#fff' },
             
-            // Equipo Amarillo (Lisos)
             { id: 6, x: 0.5, y: 0.08, type: 'solid', baseColor: '#eab308', number: '1', radius: 18, tColor: '#000' },
             { id: 7, x: 0.5, y: 0.22, type: 'solid', baseColor: '#eab308', number: '2', radius: 18, tColor: '#000' },
             { id: 8, x: 0.25, y: 0.35, type: 'solid', baseColor: '#eab308', number: '3', radius: 18, tColor: '#000' },
             { id: 9, x: 0.75, y: 0.35, type: 'solid', baseColor: '#eab308', number: '4', radius: 18, tColor: '#000' },
             { id: 10,x: 0.5, y: 0.44, type: 'solid', baseColor: '#eab308', number: '5', radius: 18, tColor: '#000' },
             
-            // Balón
             { id: 99, x: 0.5, y: 0.5, type: 'ball', baseColor: '#ffffff', number: '⚽', radius: 12, tColor: '#000' }
         ];
 
-        let initialized = false;
-        function initPlayers() {
-            if (!initialized) {
-                players.forEach(p => {
-                    p.px = p.x * canvas.width;
-                    p.py = p.y * canvas.height;
-                });
-                initialized = true;
-            }
-        }
-
-        function updatePlayerPercentages() {
-            players.forEach(p => {
-                p.x = p.px / canvas.width;
-                p.y = p.py / canvas.height;
-            });
-        }
-
         let activePlayer = null, arrowStart = null, arrowCurrent = null, arrows = [];
 
-        function drawBoard() {
-            if (!canvas.width) return;
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            initPlayers();
+        // Redimensionado instantáneo leyendo las medidas físicas del contenedor en tiempo real
+        function resizeCanvas() {
+            const container = document.getElementById('pizarraContainer');
+            canvas.width = container.getBoundingClientRect().width || container.clientWidth;
+            canvas.height = container.getBoundingClientRect().height || container.clientHeight;
+            
+            // Forzar actualización inmediata de las coordenadas de las fichas en píxeles
+            players.forEach(p => {
+                p.px = p.x * canvas.width;
+                p.py = p.y * canvas.height;
+            });
+            drawBoard();
+        }
 
-            // Renderizado del suelo de madera del pabellón
+        function drawBoard() {
+            if (!canvas.width || !canvas.height) return;
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Suelo texturizado de madera parqué
             const w = canvas.width, h = canvas.height, bH = 16; 
             for (let y = 0; y < h; y += bH) {
                 ctx.fillStyle = (Math.floor(y / bH) % 2 === 0) ? '#f3d5ab' : '#ebd0a3';
@@ -179,7 +116,7 @@
                 ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke();
             }
 
-            // Marcas azules futsal oficiales
+            // Marcas azules del campo reglamentario
             ctx.strokeStyle = '#1d70b8'; ctx.lineWidth = 4;
             const pX = 25, pY = 25, cw = w - (pX * 2), ch = h - (pY * 2);
             ctx.strokeRect(pX, pY, cw, ch); 
@@ -194,19 +131,21 @@
             ctx.beginPath(); ctx.arc(w / 2, pY, aRadius, 0, Math.PI); ctx.stroke(); 
             ctx.beginPath(); ctx.arc(w / 2, pY + ch, aRadius, Math.PI, 2 * Math.PI); ctx.stroke(); 
 
-            // Porterías
+            // Porterías rectangulares grises
             ctx.strokeStyle = '#64748b'; const gW = cw * 0.2;
             ctx.strokeRect(w / 2 - gW / 2, pY - 12, gW, 12);
             ctx.strokeRect(w / 2 - gW / 2, pY + ch, gW, 12);
 
-            // Dibujar líneas tácticas de trayectorias
+            // Dibujar las flechas tácticas rojas guardadas
             ctx.strokeStyle = '#ef4444'; ctx.lineWidth = 3.5;
-            arrows.forEach(a => drawArrow(ctx, a.start.px, a.start.py, a.end.px, a.end.py));
+            arrows.forEach(a => drawArrow(ctx, a.start.x * canvas.width, a.start.y * canvas.height, a.end.x * canvas.width, a.end.y * canvas.height));
+            
             if (arrowStart && arrowCurrent) {
-                ctx.strokeStyle = '#64748b'; drawArrow(ctx, arrowStart.x, arrowStart.y, arrowCurrent.x, arrowCurrent.y);
+                ctx.strokeStyle = '#64748b'; 
+                drawArrow(ctx, arrowStart.x, arrowStart.y, arrowCurrent.x, arrowCurrent.y);
             }
 
-            // Pintar las camisetas con franjas
+            // Dibujar las camisetas de los jugadores
             players.forEach(p => {
                 ctx.save(); ctx.beginPath(); ctx.arc(p.px, p.py, p.radius, 0, 2 * Math.PI);
                 ctx.fillStyle = p.baseColor; ctx.fill();
@@ -234,11 +173,15 @@
             context.closePath(); context.fillStyle = context.strokeStyle; context.fill();
         }
 
+        // Sistema de captura de coordenadas corregido para pantallas táctiles y ratón
         function getPos(e) {
             const rect = canvas.getBoundingClientRect();
-            const cx = e.touches ? e.touches.clientX : e.clientX;
-            const cy = e.touches ? e.touches.clientY : e.clientY;
-            return { x: cx - rect.left, y: cy - rect.top };
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            return {
+                x: (clientX - rect.left) * (canvas.width / rect.width),
+                y: (clientY - rect.top) * (canvas.height / rect.height)
+            };
         }
 
         function down(e) {
@@ -252,6 +195,7 @@
         }
 
         function move(e) {
+            if (!activePlayer && !arrowStart) return;
             const pos = getPos(e);
             if (activePlayer) { activePlayer.px = pos.x; activePlayer.py = pos.y; drawBoard(); }
             else if (arrowStart) { arrowCurrent = pos; drawBoard(); }
@@ -259,27 +203,33 @@
 
         function up() {
             if (arrowStart && arrowCurrent && Math.hypot(arrowCurrent.x - arrowStart.x, arrowCurrent.y - arrowStart.y) > 12) {
-                // Guardar la flecha guardando coordenadas absolutas escaladas
+                // Guarda las flechas de forma porcentual para que no se muevan de su sitio al girar la pantalla
                 arrows.push({ 
-                    start: { px: arrowStart.x, py: arrowStart.y }, 
-                    end: { px: arrowCurrent.x, py: arrowCurrent.y } 
+                    start: { x: arrowStart.x / canvas.width, y: arrowStart.y / canvas.height }, 
+                    end: { x: arrowCurrent.x / canvas.width, y: arrowCurrent.y / canvas.height } 
                 });
             }
-            if (activePlayer) { updatePlayerPercentages(); }
+            if (activePlayer) {
+                activePlayer.x = activePlayer.px / canvas.width;
+                activePlayer.y = activePlayer.py / canvas.height;
+            }
             activePlayer = null; arrowStart = null; arrowCurrent = null; drawBoard();
         }
 
+        // Activadores táctiles reactivos independientes
         canvas.addEventListener('mousedown', down); canvas.addEventListener('mousemove', move); window.addEventListener('mouseup', up);
         canvas.addEventListener('touchstart', down, { passive: true }); canvas.addEventListener('touchmove', move, { passive: true }); canvas.addEventListener('touchend', up);
         
         window.addEventListener('resize', resizeCanvas);
-        window.addEventListener('DOMContentLoaded', () => { resizeCanvas(); });
+        
+        // Ejecución retrasada controlada para asegurar que el móvil asigne las medidas correctamente
+        window.addEventListener('load', () => { setTimeout(resizeCanvas, 150); });
 
         document.getElementById('btnClear').addEventListener('click', () => {
             arrows = []; drawBoard();
         });
 
-        // Capturador de Video
+        // Grabador nativo de video
         let recorder, chunks = [];
         const btnStart = document.getElementById('btnStart'), btnStop = document.getElementById('btnStop'), statusText = document.getElementById('status');
 
@@ -293,7 +243,7 @@
                     const blob = new Blob(chunks, { type: 'video/webm' });
                     const url = URL.createObjectURL(blob);
                     const a = document.createElement('a'); a.href = url;
-                    a.download = `estrategia_futsal_${new Date().toISOString().slice(0,10)}.webm`; a.click();
+                    a.download = `futsal_pabellon_${new Date().toISOString().slice(0,10)}.webm`; a.click();
                     statusText.innerText = "Listo"; btnStart.style.display = "inline-block"; btnStop.style.display = "none";
                 };
                 recorder.start(); statusText.innerText = "🎥 GRABANDO..."; statusText.style.color = "#ef4444";
