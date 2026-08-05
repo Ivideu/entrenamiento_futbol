@@ -74,8 +74,8 @@
         #btnStop:hover { background: #dc2626; }
         #btnUndo { background: #e2e8f0; color: #334155; border: 1px solid #cbd5e1; }
         #btnUndo:hover { background: #cbd5e1; }
-        #btnClear { background: #64748b; color: #fff; }
-        #btnClear:hover { background: #475569; }
+        #btnBack { background: #1d70b8; color: #ffffff; }
+        #btnBack:hover { background: #15538a; }
         #status { font-style: italic; color: #64748b; font-size: 12px; font-weight: 500; margin-left: 2px; }
 
         /* 💻 ADAPTACIÓN AUTOMÁTICA AL 50% EN PC PANTALLA GRANDE */
@@ -103,7 +103,7 @@
         <button id="btnStart">🔴 Grabar</button>
         <button id="btnStop">⏹️ Detener</button>
         <button id="btnUndo">↩️ Deshacer</button>
-        <button id="btnClear">🗑️ Limpiar</button>
+        <button id="btnBack">⬅️ Volver</button>
         <span id="status">Listo</span>
     </div>
 
@@ -300,9 +300,10 @@
             }
         });
 
-        document.getElementById('btnClear').addEventListener('click', () => {
-            saveStateToHistory(); arrows = []; drawBoard();
+         document.getElementById('btnBack').addEventListener('click', () => {
+            window.location.href = 'index.html';
         });
+
 
         // Módulo de grabación de video nativo
         let recorder, chunks = [];
