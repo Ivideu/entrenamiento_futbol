@@ -68,11 +68,27 @@
             font-size: 14px;
             color: #00ff88;
         }
-        iframe { 
-            border: 2px solid #333; 
-            border-radius: 12px; 
-            background: #ffffff; 
+
+        /* 🟢 TRUCO ANTIANUNCIOS: Contenedor que recorta los bordes */
+        .pizarra-wrapper {
+            width: 100%;
+            max-width: 1000px; /* Ajusta al ancho de la pizarra */
+            height: 600px;     /* Oculta el anuncio inferior */
+            overflow: hidden;  /* Esconde todo lo que sobresalga */
+            position: relative;
+            border: 2px solid #333;
+            border-radius: 12px;
             box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+        }
+
+        /* Desplaza la página interna hacia arriba para esconder el anuncio superior */
+        .pizarra-wrapper iframe {
+            position: absolute;
+            top: -95px;       /* Empuja el anuncio de arriba fuera de la vista */
+            left: 0;
+            width: 100%;
+            height: 750px;     /* Le da suficiente margen interno */
+            border: none;
         }
     </style>
 </head>
@@ -91,12 +107,10 @@
             </div>
         </div>
 
-        <!-- Pizarra de Fútbol Sala Oficial (Servidor Corregido) -->
-        <iframe 
-            src="https://tactical-board.com" 
-            width="100%" 
-            height="700px">
-        </iframe>
+        <!-- Contenedor con máscara de recorte aplicada -->
+        <div class="pizarra-wrapper">
+            <iframe src="https://tactical-board.com"></iframe>
+        </div>
     </div>
 
     <script>
@@ -107,17 +121,14 @@
         const btnStop = document.getElementById('btnStop');
         const statusText = document.getElementById('status');
 
-        // Captura la pantalla, ventana o pestaña para grabar la sesión dinámica
         btnStart.addEventListener('click', async () => {
             recordedChunks = [];
             try {
-                // Solicita permiso al navegador para capturar video y audio (micrófono)
                 const stream = await navigator.mediaDevices.getDisplayMedia({
                     video: { mediaSource: "screen" },
                     audio: true 
                 });
 
-                // Configura el grabador con un formato de video web estándar
                 mediaRecorder = new MediaRecorder(stream, { mimeType: 'video/webm;codecs=vp9' });
                 
                 mediaRecorder.ondataavailable = (e) => {
@@ -128,7 +139,6 @@
                     const blob = new Blob(recordedChunks, { type: 'video/webm' });
                     const url = URL.createObjectURL(blob);
                     
-                    // Descarga automática del archivo de video al PC/Móvil
                     const a = document.createElement('a');
                     a.href = url;
                     a.download = `tactica_futsal_${new Date().toISOString().slice(0,10)}.webm`;
@@ -146,8 +156,7 @@
                 btnStart.style.display = "none";
                 btnStop.style.display = "inline-block";
 
-                // Detener la interfaz si el usuario cancela la grabación desde el aviso flotante del navegador
-                stream.getVideoTracks()[0].onended = () => {
+                stream.getVideoTracks().onended = () => {
                     if (mediaRecorder.state !== "inactive") {
                         mediaRecorder.stop();
                     }
