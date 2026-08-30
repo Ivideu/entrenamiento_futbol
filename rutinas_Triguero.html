@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recursos y Pizarras de Fútbol Sala</title>
+    <style>
+        :root {
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --card-hover-border: #3b82f6;
+            --text-main: #0f172a;
+            --text-sub: #64748b;
+            --border-color: #e2e8f0;
+            --gradient-primary: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #60a5fa 100%);
+            --gradient-accent: linear-gradient(135deg, #2563eb 0%, #38bdf8 100%);
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.05), 0 1px 2px rgba(0,0,0,0.1);
+            --shadow-hover: 0 10px 25px -5px rgba(59, 130, 246, 0.15), 0 8px 10px -6px rgba(59, 130, 246, 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.5;
+            padding: 2rem 1rem;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 950px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 2.5rem;
+            padding: 2.5rem 1.5rem;
+            background: var(--gradient-primary);
+            border-radius: 16px;
+            color: #ffffff;
+            box-shadow: 0 10px 25px -5px rgba(30, 64, 175, 0.25);
+        }
+
+        h1 {
+            font-size: 2.25rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        p.subtitle {
+            color: #e0f2fe;
+            font-size: 1.05rem;
+            font-weight: 400;
+        }
+
+        .section-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin: 2.5rem 0 1.25rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: #1e3a8a;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #e2e8f0;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 60px;
+            height: 2px;
+            background: var(--gradient-accent);
+            border-radius: 2px;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.25rem;
+        }
+
+        .card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 1.25rem;
+            text-decoration: none;
+            color: inherit;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: var(--gradient-accent);
+            opacity: 0;
+            transition: opacity 0.25s ease;
+            border-radius: 12px 12px 0 0;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            border-color: #93c5fd;
+            box-shadow: var(--shadow-hover);
+        }
+
+        .card:hover::before {
+            opacity: 1;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .icon-box {
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 1.2rem;
+            box-shadow: inset 0 0 0 1px rgba(0,0,0,0.05);
+        }
+
+        .icon-youtube { background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%); color: #dc2626; }
+        .icon-web { background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%); color: #2563eb; }
+        .icon-instagram { background: linear-gradient(135deg, #fdf2f8 0%, #fce7f3 100%); color: #db2777; }
+        .icon-tactics { background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%); color: #16a34a; }
+
+        .card-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--text-main);
+            line-height: 1.3;
+        }
+
+        .card-desc {
+            font-size: 0.875rem;
+            color: var(--text-sub);
+            margin-bottom: 0.75rem;
+        }
+
+        .badge {
+            display: inline-block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.25rem 0.6rem;
+            border-radius: 6px;
+            background-color: #f1f5f9;
+            color: #475569;
+            align-self: flex-start;
+        }
+
+        .badge-blue {
+            background-color: #eff6ff;
+            color: #1d4ed8;
+            border: 1px solid #bfdbfe;
+        }
+
+        .badge-green {
+            background-color: #f0fdf4;
+            color: #15803d;
+            border: 1px solid #bbf7d0;
+        }
+
+        footer {
+            margin-top: 3.5rem;
+            text-align: center;
+            color: var(--text-sub);
+            font-size: 0.875rem;
+            border-top: 1px solid var(--border-color);
+            padding-top: 1.5rem;
+        }
+
+        footer code {
+            background-color: #e2e8f0;
+            padding: 0.15rem 0.4rem;
+            border-radius: 4px;
+            color: #1e293b;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>⚽ Recursos de Fútbol Sala</h1>
+            <p class="subtitle">Colección de enlaces para pizarras tácticas, ejercicios y canales de entrenamiento</p>
+        </header>
+
+        <!-- Pizarras y webs de recursos -->
+        <h2 class="section-title">📋 Pizarras Tácticas y Ejercicios</h2>
+        <div class="grid">
+            <a href="https://www.ejerciciosdefutbolsala.com/pizarra-de-futbol-sala-totalmente-gratis-para-que-hagais-y-guardeis-vuestros-ejercicios/" target="_blank" class="card">
+                <div>
+                    <div class="card-header">
+                        <div class="icon-box icon-tactics">📋</div>
+                        <div class="card-title">Ejercicios de Fútbol Sala</div>
+                    </div>
+                    <p class="card-desc">Pizarra interactiva gratuita para diseñar y guardar ejercicios.</p>
+                </div>
+                <span class="badge badge-green">Pizarra Gratis</span>
+            </a>
+
+            <a href="https://www.keepmove.net/recursosdeentrenamiento/area-gratuita-ejercicios/" target="_blank" class="card">
+                <div>
+                    <div class="card-header">
+                        <div class="icon-box icon-web">🌐</div>
+                        <div class="card-title">KeepMove - Área Gratuita</div>
+                    </div>
+                    <p class="card-desc">Recursos de entrenamiento y banco de ejercicios.</p>
+                </div>
+                <span class="badge badge-blue">Ejercicios</span>
+            </a>
+
+            <a href="https://www.coachfutsal.net/index.php?lang=es" target="_blank" class="card">
+                <div>
+                    <div class="card-header">
+                        <div class="icon-box icon-web">🌐</div>
+                        <div class="card-title">Coach Futsal</div>
+                    </div>
+                    <p class="card-desc">Portal especializado para entrenadores de fútbol sala.</p>
+                </div>
+                <span class="badge badge-blue">Formación</span>
+            </a>
+
+            <a href="https://www.instagram.com/lapizarradefutsal/" target="_blank" class="card">
+                <div>
+                    <div class="card-header">
+                        <div class="icon-box icon-instagram">📸</div>
+                        <div class="card-title">La Pizarra de Futsal</div>
+                    </div>
+                    <p class="card-desc">Instagram con clips de táctica, ejercicios y análisis.</p>
+                </div>
+                <span class="badge">Instagram</span>
+            </a>
+        </div>
+
+        <!-- Canales de YouTube -->
+        <h2 class="section-title">▶️ Canales de YouTube</h2>
+        <div class="grid">
+            <a href="https://www.youtube.com/@pepellinares7707/videos" target="_blank" class="card">
+                <div>
+                    <div class="card-header">
+                        <div class="icon-box icon-youtube">▶</div>
+                        <div class="card-title">Pep Llinares</div>
+                    </div>
+                    <p class="card-desc">Especializado en preparación y entrenamiento de porteros.</p>
+                </div>
+                <span class="badge badge-green">Especial Porteros</span>
+            </a>
+
+            <a href="https://www.youtube.com/@FabinhoTreinadordeFutsal" target="_blank" class="card">
+                <div>
+                    <div class="card-header">
+                        <div class="icon-box icon-youtube">▶</div>
+                        <div class="card-title">Fabinho Treinador de Futsal</div>
+                    </div>
+                    <p class="card-desc">Contenido de entrenamiento táctico y técnico.</p>
+                </div>
+                <span class="badge">YouTube</span>
+            </a>
+
+            <a href="https://www.youtube.com/@NEEDSFUTSALCHANNEL" target="_blank" class="card">
+                <div>
+                    <div class="card-header">
+                        <div class="icon-box icon-youtube">▶</div>
+                        <div class="card-title">NEEDS FUTSAL CHANNEL</div>
+                    </div>
+                    <p class="card-desc">Ejercicios, jugadas ensayadas y conceptos.</p>
+                </div>
+                <span class="badge">YouTube</span>
+            </a>
+
+            <a href="https://www.youtube.com/@7futsal2/videos" target="_blank" class="card">
+                <div>
+                    <div class="card-header">
+                        <div class="icon-box icon-youtube">▶</div>
+                        <div class="card-title">7 Futsal</div>
+                    </div>
+                    <p class="card-desc">Jugadas, highlights y conceptos de futsal.</p>
+                </div>
+                <span class="badge">YouTube</span>
+            </a>
+
+            <a href="https://www.youtube.com/@MatheusPalhinha" target="_blank" class="card">
+                <div>
+                    <div class="card-header">
+                        <div class="icon-box icon-youtube">▶</div>
+                        <div class="card-title">Matheus Palhinha</div>
+                    </div>
+                    <p class="card-desc">Entrenamientos y metodologías de fútbol sala.</p>
+                </div>
+                <span class="badge">YouTube</span>
+            </a>
+
+            <a href="https://www.youtube.com/@CharlesCalomino65" target="_blank" class="card">
+                <div>
+                    <div class="card-header">
+                        <div class="icon-box icon-youtube">▶</div>
+                        <div class="card-title">Charles Calomino</div>
+                    </div>
+                    <p class="card-desc">Ejercicios prácticos y análisis de futsal.</p>
+                </div>
+                <span class="badge">YouTube</span>
+            </a>
+
+            <a href="https://www.youtube.com/@FutsalMaestro10/videos" target="_blank" class="card">
+                <div>
+                    <div class="card-header">
+                        <div class="icon-box icon-youtube">▶</div>
+                        <div class="card-title">Futsal Maestro 10</div>
+                    </div>
+                    <p class="card-desc">Tutoriales tácticos y situaciones de juego.</p>
+                </div>
+                <span class="badge">YouTube</span>
+            </a>
+
+            <a href="https://www.youtube.com/@ProfiveFutsalAcademy" target="_blank" class="card">
+                <div>
+                    <div class="card-header">
+                        <div class="icon-box icon-youtube">▶</div>
+                        <div class="card-title">Profive Futsal Academy</div>
+                    </div>
+                    <p class="card-desc">Metodología y conceptos de formación profesional.</p>
+                </div>
+                <span class="badge">YouTube</span>
+            </a>
+
+            <a href="https://www.youtube.com/channel/UCr8gvBfm9nJNeHHVrnBKA0g" target="_blank" class="card">
+                <div>
+                    <div class="card-header">
+                        <div class="icon-box icon-youtube">▶</div>
+                        <div class="card-title">Canal de Futsal</div>
+                    </div>
+                    <p class="card-desc">Recursos en vídeo para sesiones de entrenamiento.</p>
+                </div>
+                <span class="badge">YouTube</span>
+            </a>
+        </div>
+
+        <footer>
+            <p>Guarda este archivo <code>.html</code> en tu ordenador o móvil para acceder a tus recursos de fútbol sala cuando quieras.</p>
+        </footer>
+    </div>
+</body>
+</html>
